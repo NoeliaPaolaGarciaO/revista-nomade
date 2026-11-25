@@ -1,0 +1,16 @@
+{
+  "name": "Nómade · Revista digital de turismo",
+  "short_name": "Nómade",
+  "description": "Revista digital mensual de turismo: destinos, experiencias y guía del viajero.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1B2349",
+  "theme_color": "#1B2349",
+  "icons": [
+    { "src": "img/marca/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "img/marca/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/marca/icono-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

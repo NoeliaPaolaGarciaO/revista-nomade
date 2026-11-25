@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Nómade | Revista digital de turismo</title>
+  <meta name="description" content="Revista digital mensual de turismo: destinos, salidas, guía del viajero y más.">
+  <meta name="author" content="Noelia García">
+  <meta name="copyright" content="© 2026 Noelia García · Nómade">
+
+  <!-- App instalable -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1B2349">
+  <link rel="icon" href="img/marca/nomade-icono.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/marca/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Nómade">
+
+  <!-- Vista previa al compartir -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nómade · Revista digital de turismo">
+  <meta property="og:description" content="Destinos, salidas y guía del viajero. Leela desde tu celular.">
+  <meta property="og:image" content="img/marca/og-imagen.png">
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/agencia.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header class="nav">
+    <a class="nav-marca" href="#portada" aria-label="Ir a la portada">
+      <img class="nav-marca-icono" src="img/marca/nomade-icono.svg" alt="">
+      <span class="nav-marca-texto" data-texto="revista.nombre">Nómade</span>
+    </a>
+    <div class="nav-acciones">
+      <span id="indicador" class="nav-ind" aria-live="polite">Tapa</span>
+      <button type="button" id="btn-compartir" class="nav-btn">Compartir</button>
+      <button type="button" id="btn-instalar" class="nav-btn" hidden>Instalar app</button>
+    </div>
+  </header>
+
+  <!-- LIBRO (todas las páginas adentro de #flipbook) -->
+  <main id="flipbook" class="flipbook" aria-label="Revista digital">
+
+    <!-- 01 · PORTADA -->
+    <article class="pagina pagina--portada pagina--sin-folio" id="portada" data-etiqueta="Tapa">
+      <img class="pagina-foto" src="img/card-estambul.jpg" alt="">
+
+      <svg class="portada-fondo" viewBox="0 0 500 707" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="cielo" gradientUnits="userSpaceOnUse" y2="470">
+            <stop offset="0"   style="stop-color: var(--color-oscuro)"/>
+            <stop offset=".38" style="stop-color: color-mix(in srgb, var(--color-primario) 55%, var(--color-oscuro))"/>
+            <stop offset=".66" style="stop-color: var(--color-primario)"/>
+            <stop offset=".86" style="stop-color: var(--color-acento)"/>
+            <stop offset="1"   style="stop-color: var(--color-secundario)"/>
+          </linearGradient>
+          <radialGradient id="luna">
+            <stop offset="0" style="stop-color: var(--color-secundario)"/>
+            <stop offset="1" style="stop-color: color-mix(in srgb, var(--color-acento) 55%, var(--color-secundario))"/>
+          </radialGradient>
+          <radialGradient id="halo">
+            <stop offset="0" style="stop-color: var(--color-secundario); stop-opacity: .5"/>
+            <stop offset="1" style="stop-color: var(--color-secundario); stop-opacity: 0"/>
+          </radialGradient>
+        </defs>
+        <rect width="500" height="707" fill="url(#cielo)"/>
+        <path d="M46 214h.1M118 176h.1M205 226h.1M262 188h.1M352 214h.1M430 178h.1M470 236h.1M80 262h.1M160 250h.1M300 150h.1M400 262h.1M20 140h.1" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+        <circle cx="330" cy="395" r="170" fill="url(#halo)"/>
+        <circle cx="330" cy="395" r="92" fill="url(#luna)"/>
+        <path d="M40 412C120 332 250 288 408 262" fill="none" stroke="#fff" stroke-width="2.6" stroke-dasharray="1 9" stroke-linecap="round" opacity=".9"/>
+        <circle cx="40" cy="412" r="5" fill="#fff"/>
+        <g transform="translate(408 262) rotate(-9)">
+          <path d="M36 0L-8-15 6 0Z" fill="#fff"/>
+          <path d="M36 0L-8 15 6 0Z" fill="#e4dcff"/>
+        </g>
+        <path d="M0 482C90 442 170 472 260 454 350 436 420 472 500 450V707H0Z" style="fill: color-mix(in srgb, var(--color-primario) 55%, var(--color-oscuro))"/>
+        <path d="M0 524C100 490 190 524 290 504 380 486 440 516 500 502V707H0Z" style="fill: color-mix(in srgb, var(--color-primario) 28%, var(--color-oscuro))"/>
+        <path d="M0 574C120 544 220 578 330 560 410 547 460 564 500 556V707H0Z" style="fill: var(--color-oscuro)"/>
+      </svg>
+
+      <div class="portada-cabecera">
+        <span class="etiqueta" data-texto="revista.descriptor">Revista digital de turismo</span>
+        <span class="etiqueta etiqueta--acento" data-texto="revista.edicion">Octubre 2026</span>
+      </div>
+
+      <h1 class="portada-marca" data-texto="revista.nombre">Nómade</h1>
+
+      <ul class="portada-titulares">
+        <li><span class="etiqueta etiqueta--acento">Destino del mes</span><span data-texto="revista.destinoDelMes.nombre">Estambul</span></li>
+        <li><span class="etiqueta etiqueta--acento">Experiencias</span><span>Ideas para vivir cada destino</span></li>
+        <li><span class="etiqueta etiqueta--acento">Guía</span><span>Todo para viajar tranquilo</span></li>
+      </ul>
+
+      <div class="portada-pie">
+        <div class="portada-firma">
+          <span class="insignia" data-logo aria-hidden="true"></span>
+          <div>
+            <small>Presentada por</small>
+            <strong data-texto="agencia.nombre">Noelia García</strong>
+          </div>
+        </div>
+        <div class="portada-agencia-tapa" data-agencia-tapa>
+          <img class="portada-sello" data-sello-tapa src="img/marca/nomade-icono.svg" alt="Logo agencia">
+          <div>
+            <small>Agencia</small>
+            <strong data-texto="revista.agenciaTapa">Horizonte Viajes</strong>
+          </div>
+        </div>
+      </div>
+    </article>
+
+
+    <!-- EDITORIAL -->
+    <article class="pagina pagina--primaria" id="editorial" data-etiqueta="Editorial">
+      <span class="etiqueta">Editorial</span>
+      <h2 class="titulo">Bienvenidos <em>a bordo</em></h2>
+      <p class="texto">Cada mes reunimos ideas para salir, datos útiles para viajar tranquilo y recomendaciones para que armes tu próximo viaje sin apuro.</p>
+      <p class="texto">En este número: tres destinos para descubrir, ideas para vivirlos, sabores de distintos rincones del mundo y una guía práctica para que tus documentos, tu dinero y tu equipaje no sean un problema.</p>
+      <p class="firma-editorial">Buen viaje, el equipo de <span data-texto="agencia.nombre">tu agencia</span></p>
+    </article>
+
+<!-- ÍNDICE -->
+    <article class="pagina pagina--papel pagina--arriba">
+      <span class="etiqueta">En este número</span>
+      <h2 class="titulo">Todo lo que <em>viene</em></h2>
+      <ul class="indice">
+        <li><a href="#editorial"><b data-folio-de="editorial"></b><span>Editorial</span></a></li>
+        <li><a href="#inspiracion"><b data-folio-de="inspiracion"></b><span>Inspiración</span></a></li>
+        <li><a href="#destinos"><b data-folio-de="destinos"></b><span>Destinos</span></a></li>
+        <li><a href="#experiencias"><b data-folio-de="experiencias"></b><span>Experiencias</span></a></li>
+        <li><a href="#gastronomia"><b data-folio-de="gastronomia"></b><span>Sabores del mundo</span></a></li>
+        <li><a href="#entrevista"><b data-folio-de="entrevista"></b><span>Entrevista</span></a></li>
+        <li data-requiere="viajeros"><a href="#viajeros"><b data-folio-de="viajeros"></b><span>Viajeros</span></a></li>
+        <li><a href="#guia"><b data-folio-de="guia"></b><span>Guía del viajero</span></a></li>
+        <li><a href="#equipaje"><b data-folio-de="equipaje"></b><span>Equipaje</span></a></li>
+        <li><a href="#checklist"><b data-folio-de="checklist"></b><span>Antes de salir</span></a></li>
+        <li><a href="#frases"><b data-folio-de="frases"></b><span>Frases útiles</span></a></li>
+        <li data-requiere="operadores"><a href="#operadores"><b data-folio-de="operadores"></b><span>Operadores aliados</span></a></li>
+        <li data-requiere="ofertasOperadores"><a href="#ofertas-operadores"><b data-folio-de="ofertas-operadores"></b><span>Propuestas de operadores</span></a></li>
+        <li data-requiere="salidas"><a href="#salidas"><b data-folio-de="salidas"></b><span>Nuestras salidas</span></a></li>
+        <li><a href="#contratapa"><b data-folio-de="contratapa"></b><span>Contacto</span></a></li>
+      </ul>
+    </article>
+
+    <!-- INSPIRACIÓN -->
+    <article class="pagina pagina--papel-alt pagina--centrada" id="inspiracion" data-etiqueta="Inspiración">
+      <span class="etiqueta">Inspiración</span>
+      <h2 class="titulo">Ideas para tu <em>próximo viaje</em></h2>
+      <p class="texto">Playas paradisíacas, montañas imponentes y ciudades llenas de historia. A veces el mejor plan empieza con una foto que no podés dejar de mirar.</p>
+    </article>
+    <article class="pagina pagina--foto">
+      <img class="pagina-foto" src="img/hero-patagonia.avif" alt="Paisaje de la Patagonia">
+      <h2 class="titulo">Explorá el <em>mundo</em></h2>
+      <p class="texto">Descubrí experiencias únicas que te esperan en cada destino.</p>
+    </article>
+
+    <!-- DESTINOS -->
+    <article class="pagina pagina--primaria" id="destinos" data-etiqueta="Destinos">
+      <span class="etiqueta">Inspiración</span>
+      <h2 class="titulo">Destinos para <em>descubrir</em></h2>
+      <p class="texto">Lugares que pueden convertirse en tu próximo viaje.</p>
+    </article>
+    <article class="pagina pagina--papel pagina--arriba">
+      <ul class="tarjetas" data-tarjetas="
+        img/card-estambul.jpg | Turquía | Estambul | Una ciudad fascinante entre Europa y Asia. | #estambul
+        img/destinos/card-italia.jpg | Europa | Italia | Arte, historia, ciudades y gastronomía. | #italia
+        img/destinos/card-rio.jpg | Brasil | Río de Janeiro | Playas, naturaleza y paisajes increíbles. | #experiencias
+      "></ul>
+    </article>
+
+    <!-- ARTÍCULO: ESTAMBUL -->
+    <article class="pagina pagina--foto" id="estambul" data-etiqueta="Destinos · Estambul">
+      <img class="pagina-foto" src="img/card-estambul.jpg" alt="Vista de Estambul">
+      <span class="etiqueta">Turquía</span>
+      <h2 class="titulo"><em>Estambul</em></h2>
+            <p class="texto">Una ciudad fascinante entre Europa y Asia.</p>
+    </article>
+    <article class="pagina pagina--papel pagina--arriba">
+      <span class="etiqueta">Estambul en cuatro claves</span>
+      <h2 class="titulo">Antes de <em>ir</em></h2>
+      <ul class="datos" data-datos="
+        Cuándo ir | Primavera y otoño suelen ser las épocas más agradables, con temperaturas templadas y menos calor que en verano.
+        Qué no perderte | Santa Sofía, la Mezquita Azul, el Gran Bazar y un paseo en barco por el Bósforo.
+        Para probar | Un desayuno turco, el baklava y el té servido en vasito de vidrio.
+        Un tip | Cruzar en ferry entre la parte europea y la asiática es práctico y tiene vistas inmejorables.
+      "></ul>
+    </article>
+
+    <!-- ARTÍCULO: ITALIA -->
+    <article class="pagina pagina--foto" id="italia" data-etiqueta="Destinos · Italia">
+      <img class="pagina-foto" src="img/destinos/card-italia.jpg" alt="Calle de un pueblo italiano">
+      <span class="etiqueta">Europa</span>
+      <h2 class="titulo"><em>Italia</em></h2>
+      <p class="texto">Arte, historia, ciudades y gastronomía.</p>
+    </article>
+    <article class="pagina pagina--papel pagina--arriba">
+      <span class="etiqueta">Italia en cuatro claves</span>
+      <h2 class="titulo">Antes de <em>ir</em></h2>
+      <ul class="datos" data-datos="
+        Cuándo ir | Primavera y otoño combinan buen clima con menos multitudes; el verano es caluroso y muy concurrido en las ciudades más visitadas.
+        Clásicos para un primer viaje | Roma, Florencia y Venecia forman el trío imperdible para conocer el país.
+        Para probar | Pasta fresca, pizza y gelato. En cada región cambia la especialidad.
+        Un tip | Reservá con anticipación las entradas a los museos y monumentos más visitados.
+      "></ul>
+    </article>
+
+    <!-- EXPERIENCIAS -->
+    <article class="pagina pagina--oscura" id="experiencias" data-etiqueta="Experiencias">
+      <span class="etiqueta">Experiencias</span>
+      <h2 class="titulo">Viví el <em>destino</em></h2>
+      <p class="texto">Ideas para sumar a tu viaje. Consultá con tu agente qué opciones hay disponibles en cada destino.</p>
+    </article>
+    <article class="pagina pagina--papel pagina--arriba">
+      <ul class="tarjetas" data-tarjetas="
+        img/experiencias/bosforo.jpg | Estambul | Paseo en barco por el Bósforo | Mirá la ciudad desde el agua, con Europa de un lado y Asia del otro.
+        img/experiencias/cocina-italiana.jpg | Italia | Clase de cocina italiana | Aprendé a preparar pasta fresca como en una cocina de casa.
+        img/experiencias/pan-de-azucar.jpg | Río de Janeiro | Atardecer en el Pan de Azúcar | Subí en teleférico y mirá la bahía con la luz del final del día.
+      "></ul>
+    </article>
+
+    <!-- GASTRONOMÍA -->
+    <article class="pagina pagina--degradado" id="gastronomia" data-etiqueta="Gastronomía">
+      <span class="etiqueta">Gastronomía</span>
+      <h2 class="titulo">Sabores <em>del mundo</em></h2>
+      <p class="texto">Viajar también es sentarse a la mesa. Tres platos que cuentan algo de los lugares donde nacieron.</p>
+    </article>
+    <article class="pagina pagina--papel pagina--arriba">
+      <ul class="platos" data-platos="
+        img/gastro-ramen.jpg | Japón | Ramen | Sopa de fideos en un caldo intenso, uno de los platos más queridos de la cocina japonesa.
+        img/gastro-tagine.webp | Marruecos | Tagine | Guiso que se cocina lento en una olla de barro cónica, la que le da su nombre.
+        img/gastro-pasta.jpg | Italia | Pasta | Protagonista de la mesa italiana, con recetas que cambian en cada región.
+      "></ul>
+    </article>
+
+    <!-- ENTREVISTA -->
+    <article class="pagina pagina--papel-alt pagina--arriba" id="entrevista" data-etiqueta="Entrevista">
+      <span class="etiqueta">Entrevista del mes</span>
+      <h2 class="titulo">Charla con <em>protagonistas</em></h2>
+      <div class="entrevista-cabecera">
+        <img class="entrevista-foto" src="img/logo.png" alt="Entrevistado">
+        <div>
+          <strong>Nombre del entrevistado</strong>
+          <small>Operador / Viajero frecuente · Destino favorito</small>
+        </div>
+      </div>
+      <ul class="datos" data-datos="
+        ¿Qué destino recomendarías hoy y por qué? | Respuesta breve y auténtica que inspire a viajar.
+        ¿Cuál es el error más común al planificar ese viaje? | Consejo práctico desde la experiencia real.
+        Un lugar o momento inolvidable | Esa recomendación que no aparece en las guías tradicionales.
+      "></ul>
+    </article>
+
+    <!-- VIAJEROS (se oculta sola si viajeros: [] está vacío en agencia.js) -->
+    <article class="pagina pagina--primaria" id="viajeros" data-etiqueta="Viajeros" data-requiere="viajeros">
+      <span class="etiqueta">Viajeros</span>
+      <h2 class="titulo">Historias <em>de viaje</em></h2>
+      <p class="texto">Quienes ya viajaron cuentan cómo fue.</p>
+    </article>
+    <article class="pagina pagina--papel pagina--arriba" data-requiere="viajeros">
+      <ul id="viajeros-lista" class="tarjetas"></ul>
+    </article>
+
+    <!-- GUÍA DEL VIAJERO -->
+    <article class="pagina pagina--papel pagina--arriba" id="guia" data-etiqueta="Guía del viajero">
+      <span class="etiqueta">Guía del viajero</span>
+      <h2 class="titulo">Tus <em>documentos</em></h2>
+      <ul class="datos" data-datos="
+        Pasaporte | Revisá la vigencia: muchos países exigen que tenga al menos seis meses de validez al momento de ingresar.
+        Visas y autorizaciones | Los requisitos cambian según el destino y la nacionalidad. Confirmalos con fuentes oficiales o con tu agente antes de comprar.
+        Menores de edad | Los menores que viajan solos o con un solo adulto pueden necesitar autorización de viaje. Consultalo con tiempo.
+        Copias | Guardá copias digitales de pasaporte, pasajes y seguro en tu celular y en la nube.
+      "></ul>
+    </article>
+    <article class="pagina pagina--papel pagina--arriba">
+      <span class="etiqueta">Guía del viajero</span>
+      <h2 class="titulo">Dinero y <em>tarjetas</em></h2>
+      <ul class="datos" data-datos="
+        Efectivo y tarjetas | Llevá una combinación de ambos. Consultá a tu banco qué costos tienen las compras en el exterior.
+        Avisá a tu banco | Preguntá si necesitás informar tu viaje y activá las compras internacionales antes de salir.
+        Cambio de moneda | Compará antes de cambiar y evitá hacerlo en el aeropuerto, donde suele convenir menos.
+        Propinas | Las costumbres cambian en cada país. Averiguá cuál es la habitual en tu destino.
+      "></ul>
+    </article>
+    <article class="pagina pagina--papel-alt pagina--arriba" id="salud" data-etiqueta="Guía del viajero">
+      <span class="etiqueta">Guía del viajero</span>
+      <h2 class="titulo">Salud y <em>seguro</em></h2>
+      <ul class="datos" data-datos="
+        Asistencia al viajero | Contratá un seguro médico antes de salir. Algunos destinos lo exigen para ingresar.
+        Vacunas | Consultá con tu médico, con tiempo, qué recomendaciones sanitarias aplican a tu destino.
+        Medicamentos | Llevalos en el equipaje de mano, con receta, y revisá las normas de cada país.
+        Cobertura | Leé qué cubre tu póliza: asistencia médica, equipaje y cancelaciones.
+      "></ul>
+    </article>
+    <article class="pagina pagina--papel-alt pagina--arriba">
+      <span class="etiqueta">Guía del viajero</span>
+      <h2 class="titulo">En el <em>aeropuerto</em></h2>
+      <ul class="datos" data-datos="
+        Llegada | En vuelos internacionales se recomienda llegar con unas tres horas de anticipación.
+        Check-in online | Hacelo desde el celular cuando la aerolínea lo habilite: ahorra tiempo en el mostrador.
+        Líquidos | En el equipaje de mano suelen tener un límite de 100 ml por envase, dentro de una bolsa transparente.
+        Conexiones | Dejá tiempo suficiente entre vuelos, sobre todo si hay migraciones o cambio de terminal.
+      "></ul>
+    </article>
+
+    <!-- EQUIPAJE -->
+    <article class="pagina pagina--papel pagina--arriba" id="equipaje" data-etiqueta="Equipaje">
+      <span class="etiqueta">Guía del viajero</span>
+      <h2 class="titulo">Equipaje en <em>vuelos</em></h2>
+      <p class="texto">Algunos consejos para preparar tu equipaje antes de viajar.</p>
+      <ul class="datos" data-datos="
+        Equipaje de mano | Revisá las medidas y el peso permitido por la aerolínea antes del viaje.
+        Equipaje despachado | Verificá la franquicia incluida en tu tarifa y el peso permitido.
+        Objetos restringidos | Algunos elementos no pueden transportarse en cabina o equipaje despachado.
+        Documentación | Antes de viajar revisá pasaporte, documentación y requisitos del destino.
+      "></ul>
+    </article>
+    <article class="pagina pagina--papel pagina--arriba">
+      <span class="etiqueta">Equipaje</span>
+      <h2 class="titulo">Lo <em>esencial</em></h2>
+      <div class="aviso">
+        <strong>Importante</strong>
+        <p>Las condiciones de equipaje pueden variar según la aerolínea, tarifa y destino. Consultá siempre las condiciones correspondientes a tu vuelo.</p>
+      </div>
+      <ul class="datos" data-datos="
+        Lo esencial arriba | Documentos, cargador, medicamentos y una muda de ropa por cualquier demora.
+        Objetos de valor | Electrónicos y joyas viajan siempre con vos, nunca en la valija despachada.
+        Pesá tu valija | Hacelo en casa: el exceso de peso se cobra en el aeropuerto.
+      "></ul>
+    </article>
+
+    <!-- CHECKLIST -->
+    <article class="pagina pagina--papel pagina--arriba" id="checklist" data-etiqueta="Antes de salir">
+      <span class="etiqueta">Antes de salir</span>
+      <h2 class="titulo">Tu <em>checklist</em></h2>
+      <ul class="checklist" data-check="
+        chk-pasaporte | Pasaporte vigente
+        chk-pasajes | Pasajes y vouchers
+        chk-seguro | Seguro de viaje
+        chk-dinero | Tarjetas y efectivo
+                chk-banco | Aviso al banco
+        chk-cargadores | Cargadores y adaptador
+        chk-medicamentos | Medicamentos y recetas
+        chk-copias | Copias digitales de documentos
+        chk-checkin | Check-in online
+      "></ul>
+      <p id="checklist-progreso" class="checklist-progreso"></p>
+    </article>
+
+    <!-- FRASES ÚTILES -->
+    <article class="pagina pagina--papel-alt pagina--arriba" id="frases" data-etiqueta="Frases útiles">
+      <span class="etiqueta">Para comunicarte</span>
+      <h2 class="titulo">Frases <em>útiles</em></h2>
+      <table class="frases">
+        <thead>
+          <tr><th scope="col">Español</th><th scope="col">Inglés</th><th scope="col">Italiano</th><th scope="col">Turco</th></tr>
+        </thead>
+        <tbody data-frases="
+          Hola | Hello | Ciao | Merhaba
+          Gracias | Thank you | Grazie | Teşekkürler
+          ¿Cuánto cuesta? | How much is it? | Quanto costa? | Ne kadar?
+          La cuenta, por favor | The bill, please | Il conto, per favore | Hesap, lütfen
+          ¿Dónde está el baño? | Where is the restroom? | Dov'è il bagno? | Tuvalet nerede?
+        "></tbody>
+      </table>
+    </article>
+
+    <!-- PÁG. 25 · OPERADORES ALIADOS (solo logos) -->
+    <article class="pagina pagina--papel pagina--arriba" id="operadores" data-etiqueta="Operadores" data-requiere="operadores">
+      <span class="etiqueta">Alianzas</span>
+      <h2 class="titulo">Operadores <em>aliados</em></h2>
+      <ul class="operadores-grilla" id="operadores-lista"></ul>
+    </article>
+
+    <!-- PÁG. 26 · OFERTAS DE OPERADORES -->
+    <article class="pagina pagina--papel-alt pagina--arriba" id="ofertas-operadores" data-etiqueta="Ofertas mayoristas" data-requiere="ofertasOperadores">
+      <span class="etiqueta">Oportunidades</span>
+      <h2 class="titulo">Propuestas de <em>operadores</em></h2>
+      <ul class="tarjetas" id="ofertas-operadores-lista"></ul>
+    </article>
+
+    <!-- PÁG. 27 · OFERTA DE LA AGENCIA MINORISTA -->
+    <article class="pagina pagina--papel pagina--arriba" id="salidas" data-etiqueta="Nuestra propuesta" data-requiere="salidas">
+      <span class="etiqueta">Destacado de agencia</span>
+      <h2 class="titulo">Nuestras <em>salidas</em></h2>
+      <ul class="tarjetas" id="salidas-lista"></ul>
+    </article>
+
+    <!-- PÁG. 27 (RESPALDO SI LA AGENCIA NO CARGÓ SALIDAS) -->
+    <article class="pagina pagina--papel-alt pagina--centrada" id="cierre" data-etiqueta="Cierre">
+      <span class="etiqueta">Hasta la próxima</span>
+      <h2 class="titulo">Tu próximo destino <em>empieza hoy</em></h2>
+      <p class="texto">Esperamos que estas ideas te inspiren a armar la valija. Guardá esta edición en tu celular para consultarla cuando salgas de viaje.</p>
+      <p class="firma-editorial" style="color: var(--color-acento-texto);">¡Nos leemos en el próximo número!</p>
+    </article>
+
+    <!-- CONTRATAPA (PÁG. 28) -->
+    <article class="pagina pagina--contratapa pagina--centrada pagina--oscura pagina--sin-folio" id="contratapa" data-etiqueta="Contacto">
+      <span class="insignia contratapa-insignia" data-logo aria-hidden="true"></span>
+      <span class="etiqueta" data-texto="agencia.rotulo">Tu agencia de viajes</span>
+      <h2 class="titulo" data-texto="agencia.nombre">Tu agencia</h2>
+      <p class="texto" data-texto="agencia.lema"></p>
+      <p class="texto" data-texto="agencia.sobreNosotros"></p>
+      <ul id="contacto" class="contacto" hidden></ul>
+      <section id="venta" class="venta" hidden></section>
+      <nav id="redes" class="redes" aria-label="Redes sociales" hidden></nav>
+      <p class="credito">© 2026 <span data-texto="agencia.nombre"></span> · Edición y diseño <span data-texto="revista.nombre">Nómade</span> por Noelia García. Todos los derechos reservados.</p>
+    </article>
+
+
+    <button type="button" id="btn-prev" class="esquina esquina--ant" aria-label="Página anterior" title="Arrastrá o hacé clic para volver"></button>
+    <button type="button" id="btn-next" class="esquina esquina--sig" aria-label="Página siguiente" title="Arrastrá o hacé clic para avanzar"></button>
+  </main>
+
+  <footer class="pie">
+    <span id="ayuda-teclado" class="ayuda-teclado"></span>
+  </footer>
+
+</body>
+</html>

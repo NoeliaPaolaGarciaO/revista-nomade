@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico · Nómade</title>
+  <style>
+    body { max-width: 720px; margin: 40px auto; padding: 0 20px; font: 16px/1.5 system-ui, sans-serif; color: #12142B; background: #F6F5FF; }
+    h1 { font-size: 1.6rem; margin-bottom: .2em; }
+    h2 { margin: 1.8em 0 .5em; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: #5B4BFF; }
+    p.sub { margin-top: 0; color: #4B4F6B; }
+    ul { list-style: none; margin: 0; padding: 0; background: #fff; border-radius: 12px; overflow: hidden; }
+    li { display: flex; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #eee; font-family: ui-monospace, monospace; font-size: .85rem; }
+    li:last-child { border-bottom: 0; }
+    li b { flex: none; width: 1.4em; }
+    li.ok b { color: #0E9F6E; }
+    li.falta { background: #FFF1EC; } li.falta b { color: #C4360E; }
+    li.opcional b { color: #B7791F; }
+    #resumen { margin: 24px 0; padding: 16px 20px; border-radius: 12px; font-weight: 600; }
+    #resumen.bien { background: #DDF7EE; color: #065F46; }
+    #resumen.mal  { background: #FFE4DC; color: #8A2A0A; }
+    #resumen.aviso { background: #FFF4D6; color: #7A5200; }
+    code { background: #ECEAFF; padding: 1px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Diagnóstico del proyecto</h1>
+  <p class="sub">Revisa que estén todos los archivos que la revista necesita.</p>
+  <div id="resumen">Revisando…</div>
+  <div id="listas"></div>
+
+  <script>
+    const GRUPOS = [
+      { titulo: 'Esenciales: sin esto la revista no funciona bien', archivos: [
+        'index.html',
+        'js/agencia.js',
+        'css/style.css',
+        'js/app.js'
+      ]},
+      { titulo: 'App instalable y sin conexión (en la raíz, junto a index.html)', archivos: [
+        'manifest.webmanifest',
+        'sw.js',
+        'img/marca/nomade-icono.svg',
+        'img/marca/icono-192.png',
+        'img/marca/icono-512.png',
+        'img/marca/icono-maskable-512.png',
+        'img/marca/apple-touch-icon.png',
+        'img/marca/og-imagen.png'
+      ]},
+      { titulo: 'Logo de la agencia', archivos: ['img/logo.png'] },
+      { titulo: 'Fotos de la revista (opcionales: si faltan, se usa un fondo de color)', opcional: true, archivos: [
+        'img/card-estambul.jpg',
+        'img/hero-patagonia.avif',
+        'img/destinos/card-italia.jpg',
+        'img/destinos/card-rio.jpg',
+        'img/gastro-ramen.jpg',
+        'img/gastro-tagine.webp',
+        'img/gastro-pasta.jpg',
+        'img/experiencias/bosforo.jpg',
+        'img/experiencias/cocina-italiana.jpg',
+        'img/experiencias/pan-de-azucar.jpg'
+      ]}
+    ];
+
+    const VERSION = [
+      { archivo: 'css/style.css', marca: '.esquina',       pista: 'no tiene los estilos de las esquinas arrastrables' },
+      { archivo: 'js/app.js',     marca: 'class Flipbook', pista: 'es una versión anterior' },
+      { archivo: 'index.html',    marca: 'esquina--sig',   pista: 'no tiene los botones de esquinas' },
+      { archivo: 'sw.js',         marca: 'nomade-v18',     pista: 'es una versión anterior (o está en una carpeta equivocada)' }
+    ];
+
+
+    async function contiene(ruta, marca) {
+      try {
+        const r = await fetch(ruta, { cache: 'no-store' });
+        if (!r.ok) return null;
+        return (await r.text()).includes(marca);
+      } catch { return null; }
+    }
+
+    const resumen = document.getElementById('resumen');
+    const listas  = document.getElementById('listas');
+
+    async function existe(ruta) {
+      try {
+        const r = await fetch(ruta, { method: 'HEAD', cache: 'no-store' });
+        return r.ok;
+      } catch { return false; }
+    }
+
+    async function revisar() {
+      if (location.protocol === 'file:') {
+        resumen.className = 'aviso';
+        resumen.innerHTML = 'Abriste esta página con doble clic, y el navegador no deja revisar archivos así.<br>' +
+          'En VS Code: clic derecho sobre <code>diagnostico.html</code> → <b>Open with Live Server</b>.';
+        return;
+      }
+
+      let faltanEsenciales = 0, faltanOpcionales = 0;
+      for (const grupo of GRUPOS) {
+        const resultados = await Promise.all(grupo.archivos.map(existe));
+        const h2 = document.createElement('h2');
+        h2.textContent = grupo.titulo;
+        const ul = document.createElement('ul');
+
+        grupo.archivos.forEach((ruta, i) => {
+          const li = document.createElement('li');
+          const marca = document.createElement('b');
+          const ok = resultados[i];
+          if (ok) { li.className = 'ok'; marca.textContent = '✔'; }
+          else if (grupo.opcional) { li.className = 'opcional'; marca.textContent = '○'; faltanOpcionales++; }
+          else { li.className = 'falta'; marca.textContent = '✘'; faltanEsenciales++; }
+          li.append(marca, document.createTextNode(ruta));
+          ul.append(li);
+        });
+        listas.append(h2, ul);
+      }
+
+      let desactualizados = 0;
+      const h2v = document.createElement('h2');
+      h2v.textContent = '¿Todos los archivos son de la misma versión?';
+      const ulv = document.createElement('ul');
+
+      for (const v of VERSION) {
+        const ok = await contiene(v.archivo, v.marca);
+        if (ok === null) continue;
+        const li = document.createElement('li');
+        const marca = document.createElement('b');
+        if (ok) {
+          li.className = 'ok';
+          marca.textContent = '✔';
+          li.append(marca, document.createTextNode(v.archivo + '  (actual)'));
+        } else {
+          li.className = 'falta';
+          marca.textContent = '✘';
+          desactualizados++;
+          li.append(marca, document.createTextNode(v.archivo + '  → ' + v.pista));
+        }
+        ulv.append(li);
+      }
+      listas.append(h2v, ulv);
+      faltanEsenciales += desactualizados;
+
+      if (faltanEsenciales === 0) {
+        resumen.className = faltanOpcionales ? 'aviso' : 'bien';
+        resumen.textContent = faltanOpcionales
+          ? `Todo lo esencial está en orden. Faltan ${faltanOpcionales} foto(s) opcional(es).`
+          : 'Todo en orden: no falta ningún archivo.';
+      } else {
+        resumen.className = 'mal';
+        resumen.textContent = `Hay ${faltanEsenciales} problema(s) (marcados con ✘): revisá las rutas o carpetas.`;
+      }
+    }
+    revisar();
+  </script>
+</body>
+</html>
