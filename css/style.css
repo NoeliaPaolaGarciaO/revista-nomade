@@ -196,8 +196,8 @@ body:has(.flipbook[data-estado="portada"]) .nav-marca { opacity: 0; pointer-even
 .pagina--portada:has(.pagina-foto)::after { display: block; content: ''; inset: 0; z-index: 1; opacity: 1; background: linear-gradient(180deg, color-mix(in srgb, var(--color-oscuro) 55%, transparent), transparent 34%, transparent 46%, color-mix(in srgb, var(--color-oscuro) 94%, transparent)); }
 .pagina--portada > :not(.pagina-foto, .portada-fondo) { position: relative; z-index: 2; }
 .portada-cabecera { display: flex; flex-wrap: wrap; gap: 0.8cqw; }
-.portada-marca { margin-top: 0.6cqw; font-size: max(38px, 10.3cqw); font-weight: 800; letter-spacing: -0.055em; line-height: 0.88; text-transform: lowercase; color: #fff; text-shadow: 0 0.6cqw 2cqw color-mix(in srgb, var(--color-oscuro) 35%, transparent); }
-.portada-marca::after { content: '.'; color: var(--color-secundario); }
+.portada-marca { display: flex; align-items: center; gap: 1.4cqw; margin-top: 0.6cqw; font-size: max(38px, 10.3cqw); font-weight: 800; letter-spacing: -0.055em; line-height: 0.88; text-transform: lowercase; color: #fff; text-shadow: 0 0.6cqw 2cqw color-mix(in srgb, var(--color-oscuro) 35%, transparent); }
+.portada-marca-logo { width: 0.92em; height: 0.92em; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
 .portada-titulares { display: grid; gap: 1.3cqw; width: 100%; margin-top: auto; list-style: none; }
 .portada-titulares li { display: flex; align-items: center; gap: 1.3cqw; }
 .portada-titulares .etiqueta { min-width: 13.4cqw; }
