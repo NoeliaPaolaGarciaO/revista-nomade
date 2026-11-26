@@ -2,7 +2,7 @@
 // NÓMADE · sw.js — service worker
 // =============================================
 
-const VERSION = 'nomade-v24';
+const VERSION = 'nomade-v27';
 
 const NUCLEO = [
   './',

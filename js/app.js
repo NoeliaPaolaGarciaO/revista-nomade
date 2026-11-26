@@ -71,6 +71,20 @@ $$('[data-frases]').forEach((tb) => filas(tb, 'data-frases').forEach((c) => {
     caja.replaceChildren(img);
   });
 
+    $$('[data-logo]').forEach((caja) => {
+    caja.classList.toggle('insignia--oscura', agencia.logoFondo === 'oscuro');
+    const fallback = () => caja.replaceChildren(h('span', 'insignia-iniciales', iniciales(agencia.nombre) || 'N'));
+    if (!agencia.logo) return fallback();
+    const img = Object.assign(new Image(), { alt: '', src: agencia.logo });
+    img.addEventListener('error', fallback, { once: true });
+    caja.replaceChildren(img);
+  });
+
+  $$('[data-logo-agencia]').forEach((caja) => {
+    const nombreAgTapa = revista.agenciaTapa || agencia.nombre || 'N';
+    caja.replaceChildren(h('span', 'insignia-iniciales', iniciales(nombreAgTapa)));
+  });
+
   if (revista.logo) {
     const img = Object.assign(new Image(), { className: 'nav-marca-img', alt: revista.nombre ?? 'Revista', src: revista.logo });
     img.addEventListener('load', () => $('.nav-marca')?.replaceChildren(img), { once: true });
