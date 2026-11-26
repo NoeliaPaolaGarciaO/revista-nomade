@@ -85,6 +85,7 @@ window.NOMADE_CONFIG = {
     cfg.agencia.rotulo = 'Tu agencia de viajes';
     cfg.agencia.lema = 'Edición personalizada de muestra';
     cfg.agencia.logo = '';
+    cfg.agencia.redes = [];
     delete cfg.venta;
   }
   if (params.get('color')) {
