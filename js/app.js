@@ -295,41 +295,59 @@ if (contenedorFlipbook) {
 
     Array.from(contenedorFlipbook.querySelectorAll(':scope > .pagina:not(#portada)')).forEach((p) => p.remove());
 
-    const paginasDemo = [
-      `<article class="pagina pagina--papel pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Destinos" data-marca="MUESTRA · ${nombreAg}">
-        <span class="etiqueta">Vista previa · Contenido editorial</span>
-        <h2 class="titulo">Destinos y <em>experiencias</em></h2>
-        <div class="demo-captura">
-          <img src="img/card-estambul.jpg" alt="Vista previa destinos">
-          <div class="demo-captura-pie"><strong>Guías visuales de cada destino</strong><span>Inspiración, gastronomía y consejos prácticos listos para tus pasajeros.</span></div>
+        const paginasDemo = [
+      // Pág. 2 (izquierda): Muestra de Contenido Editorial
+      `<article class="pagina pagina--papel pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Contenido">
+        <span class="demo-cinta">Muestra · ${nombreAg}</span>
+        <span class="etiqueta">01 · Contenido listo cada mes</span>
+        <h2 class="titulo">Destinos, gastronomía y <em>guías</em></h2>
+        <p class="texto">Recibís la revista ya redactada y diseñada con notas de inspiración, platos típicos, checklist interactivo y frases útiles.</p>
+        <div class="demo-grid">
+          <div class="demo-card"><img src="img/card-estambul.jpg" alt="Destinos"><span>Destinos del mes</span></div>
+          <div class="demo-card"><img src="img/gastro-ramen.jpg" alt="Gastronomía"><span>Sabores del mundo</span></div>
         </div>
+        <div class="demo-pill">✓ Tu equipo no tiene que redactar ni diseñar nada</div>
       </article>`,
 
-      `<article class="pagina pagina--papel-alt pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Ofertas" data-marca="MUESTRA · ${nombreAg}">
-        <span class="etiqueta">Vista previa · Ventas directas</span>
-        <h2 class="titulo">Tus salidas y <em>operadores</em></h2>
-        <div class="demo-captura">
-          <img src="img/destinos/card-rio.jpg" alt="Vista previa salidas">
-          <div class="demo-captura-pie"><strong>Botón «Consultar» a tu WhatsApp</strong><span>Cada propuesta lleva al pasajero directo a tu chat con el viaje precargado.</span></div>
+      // Pág. 3 (derecha): Muestra de Conversión a WhatsApp
+      `<article class="pagina pagina--papel-alt pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Ventas">
+        <span class="demo-cinta">Muestra · ${nombreAg}</span>
+        <span class="etiqueta">02 · Ventas directas</span>
+        <h2 class="titulo">Consultas directo a <em>tu WhatsApp</em></h2>
+        <p class="texto">Publicamos tus salidas propias y propuestas de operadores mayoristas con botón directo al chat de <strong>${nombreAg}</strong>.</p>
+        <div class="demo-oferta-mock">
+          <img src="img/destinos/card-rio.jpg" alt="Oferta ejemplo">
+          <div>
+            <small>EJEMPLO EN TU REVISTA</small>
+            <strong>Río de Janeiro All Inclusive</strong>
+            <span>Al tocar «Consultar», el pasajero escribe directo al WhatsApp de ${nombreAg}.</span>
+          </div>
         </div>
+        <div class="demo-pill">✓ Sin intermediarios: el cliente consulta en tu agencia</div>
       </article>`,
 
-      `<article class="pagina pagina--papel pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Guía" data-marca="MUESTRA · ${nombreAg}">
-        <span class="etiqueta">Vista previa · Valor agregado</span>
-        <h2 class="titulo">Guía y <em>checklist</em></h2>
-        <div class="demo-captura">
-          <img src="img/hero-patagonia.avif" alt="Vista previa guía">
-          <div class="demo-captura-pie"><strong>App instalable en el celular</strong><span>Tus clientes guardan la revista con el logo de ${nombreAg} en su teléfono.</span></div>
-        </div>
+      // Pág. 4 (izquierda): Muestra de Marca Blanca + App Instalable
+      `<article class="pagina pagina--papel pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Tu Marca">
+        <span class="demo-cinta">Muestra · ${nombreAg}</span>
+        <span class="etiqueta">03 · 100% Marca Blanca</span>
+        <h2 class="titulo">Tu logo, tus colores y <em>tu app</em></h2>
+        <p class="texto">Tus pasajeros abren el link desde WhatsApp y pueden instalar la revista de <strong>${nombreAg}</strong> como app en su celular.</p>
+        <ul class="demo-beneficios">
+          <li><strong>Portada y contratapa</strong> con el logo oficial y redes de ${nombreAg}.</li>
+          <li><strong>Lectura offline</strong> en el avión o destino sin gastar datos.</li>
+          <li><strong>Un solo link mensual</strong> listo para difundir en listas de WhatsApp e Instagram.</li>
+        </ul>
       </article>`,
 
+      // Pág. 5 (derecha): Llamado a la acción comercial
       `<article class="pagina pagina--primaria pagina--centrada" data-etiqueta="Activar edición">
         <span class="etiqueta">Muestra para ${nombreAg}</span>
-        <h2 class="titulo">¿Te gustó cómo luce <em>tu revista</em>?</h2>
-        <p class="texto">Activá tu suscripción mensual y recibí la edición completa de 28 páginas con tu logo, tus colores, tus salidas y tu contacto listo para enviar por WhatsApp.</p>
-        <a class="boton" href="${linkWa}" target="_blank" rel="noopener noreferrer">Activar edición de ${nombreAg}</a>
+        <h2 class="titulo">¿Activamos la edición de <em>${nombreAg}</em>?</h2>
+        <p class="texto">En 24 horas preparamos la revista completa de 28 páginas con tu logo oficial, tus colores y tus salidas destacadas.</p>
+        <a class="boton" href="${linkWa}" target="_blank" rel="noopener noreferrer">Quiero activar mi revista</a>
       </article>`,
 
+      // Pág. 6 (contratapa): Cierre
       `<article class="pagina pagina--contratapa pagina--centrada pagina--oscura pagina--sin-folio" data-etiqueta="Contacto">
         <span class="etiqueta">Nómade · Revista Digital de Turismo</span>
         <h2 class="titulo">Tu agencia, <em>siempre presente</em></h2>

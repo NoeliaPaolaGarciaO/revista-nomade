@@ -277,3 +277,33 @@ body:has(.flipbook[data-estado="portada"]) .nav-marca { opacity: 0; pointer-even
 .entrevista-foto { width: 6.5cqw; height: 6.5cqw; border-radius: 50%; object-fit: cover; flex: none; }
 .entrevista-cabecera strong { display: block; font-size: calc(var(--t-cuerpo) * 1.15); color: var(--color-tinta); }
 .entrevista-cabecera small { font-size: var(--t-etiqueta); color: var(--color-acento-texto); }
+
+/* ── Galería de Vista Previa Comercial (Modo Demo) ── */
+.pagina--demo-muestra { justify-content: flex-start; padding-top: 5.5cqw; gap: 1.1cqw; }
+.demo-cinta {
+  position: absolute;
+  top: 1.6cqw;
+  right: 1.6cqw;
+  padding: 0.35cqw 0.9cqw;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--color-primario) 12%, transparent);
+  color: var(--color-primario);
+  font-size: calc(var(--t-etiqueta) * 0.95);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1cqw; margin-top: 0.3cqw; }
+.demo-card { position: relative; height: 12cqw; border-radius: 1.2cqw; overflow: hidden; background: var(--fondo-foto); }
+.demo-card img { width: 100%; height: 100%; object-fit: cover; }
+.demo-card span { position: absolute; inset: auto 0 0; padding: 0.6cqw 0.8cqw; background: linear-gradient(to top, rgb(0 0 0 / 0.85), transparent); color: #fff; font-size: calc(var(--t-cuerpo) * 0.85); font-weight: 700; }
+.demo-oferta-mock { display: grid; grid-template-columns: 10.5cqw 1fr; gap: 1.1cqw; align-items: center; padding: 0.9cqw; border-radius: 1.3cqw; background: #fff; border: 1px solid color-mix(in srgb, var(--color-tinta) 10%, transparent); box-shadow: 0 6px 16px rgb(0 0 0 / 0.05); }
+.demo-oferta-mock img { width: 10.5cqw; height: 10.5cqw; border-radius: 0.9cqw; object-fit: cover; }
+.demo-oferta-mock div { display: flex; flex-direction: column; gap: 0.3cqw; }
+.demo-oferta-mock small { font-size: calc(var(--t-etiqueta) * 0.9); font-weight: 800; letter-spacing: 0.14em; color: var(--color-acento-texto); }
+.demo-oferta-mock strong { font-family: var(--fuente-titulo); font-size: calc(var(--t-cuerpo) * 1.15); font-weight: 800; color: var(--color-tinta); }
+.demo-oferta-mock span { font-size: calc(var(--t-cuerpo) * 0.85); line-height: 1.35; color: var(--color-tinta-suave); }
+.demo-pill { padding: 0.7cqw 1cqw; border-radius: 0.9cqw; background: color-mix(in srgb, var(--color-primario) 10%, transparent); color: var(--color-primario); font-size: calc(var(--t-cuerpo) * 0.88); font-weight: 700; }
+.demo-beneficios { display: flex; flex-direction: column; gap: 0.8cqw; list-style: none; margin-top: 0.3cqw; }
+.demo-beneficios li { padding: 0.85cqw 1.1cqw; border-radius: 1cqw; background: var(--color-papel-alt); font-size: calc(var(--t-cuerpo) * 0.92); line-height: 1.4; color: var(--color-tinta-suave); border-left: 3px solid var(--color-primario); }
+.demo-beneficios strong { color: var(--color-tinta); }
