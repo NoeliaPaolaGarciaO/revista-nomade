@@ -285,12 +285,69 @@ class Flipbook {
 
 const contenedorFlipbook = $('#flipbook');
 if (contenedorFlipbook) {
+  // Si es enlace Demo (?agencia=...), reemplaza las páginas reales por la galería protegida de muestra
+  if (window.NOMADE_CONFIG?.esDemo) {
+    const cfg = window.NOMADE_CONFIG;
+    const nombreAg = cfg.agencia?.nombre || 'Tu Agencia';
+    const wa = (cfg.whatsappVentas || '').replace(/\D/g, '');
+    const msg = encodeURIComponent(`Hola Noelia, probé la demo de Nómade para ${nombreAg} y quiero activar nuestra edición.`);
+    const linkWa = wa ? 'https://wa.me' + wa + '?text=' + msg : 'https://instagram.com';
+
+    Array.from(contenedorFlipbook.querySelectorAll(':scope > .pagina:not(#portada)')).forEach((p) => p.remove());
+
+    const paginasDemo = [
+      `<article class="pagina pagina--papel pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Destinos" data-marca="MUESTRA · ${nombreAg}">
+        <span class="etiqueta">Vista previa · Contenido editorial</span>
+        <h2 class="titulo">Destinos y <em>experiencias</em></h2>
+        <div class="demo-captura">
+          <img src="img/card-estambul.jpg" alt="Vista previa destinos">
+          <div class="demo-captura-pie"><strong>Guías visuales de cada destino</strong><span>Inspiración, gastronomía y consejos prácticos listos para tus pasajeros.</span></div>
+        </div>
+      </article>`,
+
+      `<article class="pagina pagina--papel-alt pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Ofertas" data-marca="MUESTRA · ${nombreAg}">
+        <span class="etiqueta">Vista previa · Ventas directas</span>
+        <h2 class="titulo">Tus salidas y <em>operadores</em></h2>
+        <div class="demo-captura">
+          <img src="img/destinos/card-rio.jpg" alt="Vista previa salidas">
+          <div class="demo-captura-pie"><strong>Botón «Consultar» a tu WhatsApp</strong><span>Cada propuesta lleva al pasajero directo a tu chat con el viaje precargado.</span></div>
+        </div>
+      </article>`,
+
+      `<article class="pagina pagina--papel pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Guía" data-marca="MUESTRA · ${nombreAg}">
+        <span class="etiqueta">Vista previa · Valor agregado</span>
+        <h2 class="titulo">Guía y <em>checklist</em></h2>
+        <div class="demo-captura">
+          <img src="img/hero-patagonia.avif" alt="Vista previa guía">
+          <div class="demo-captura-pie"><strong>App instalable en el celular</strong><span>Tus clientes guardan la revista con el logo de ${nombreAg} en su teléfono.</span></div>
+        </div>
+      </article>`,
+
+      `<article class="pagina pagina--primaria pagina--centrada" data-etiqueta="Activar edición">
+        <span class="etiqueta">Muestra para ${nombreAg}</span>
+        <h2 class="titulo">¿Te gustó cómo luce <em>tu revista</em>?</h2>
+        <p class="texto">Activá tu suscripción mensual y recibí la edición completa de 28 páginas con tu logo, tus colores, tus salidas y tu contacto listo para enviar por WhatsApp.</p>
+        <a class="boton" href="${linkWa}" target="_blank" rel="noopener noreferrer">Activar edición de ${nombreAg}</a>
+      </article>`,
+
+      `<article class="pagina pagina--contratapa pagina--centrada pagina--oscura pagina--sin-folio" data-etiqueta="Contacto">
+        <span class="etiqueta">Nómade · Revista Digital de Turismo</span>
+        <h2 class="titulo">Tu agencia, <em>siempre presente</em></h2>
+        <p class="texto">Consultá planes mensuales y anuales para agencias de viajes.</p>
+        <a class="boton" href="${linkWa}" target="_blank" rel="noopener noreferrer">Hablar con Noelia García</a>
+        <p class="credito">© 2026 Nómade por Noelia García · Edición de muestra</p>
+      </article>`
+    ];
+
+    contenedorFlipbook.insertAdjacentHTML('beforeend', paginasDemo.join(''));
+  }
+
   const btnPrev = $('#btn-prev'), btnNext = $('#btn-next');
   const fb = new Flipbook(contenedorFlipbook, (libro) => {
     if ($('#indicador')) $('#indicador').textContent = libro.etiqueta;
     if (btnPrev) btnPrev.disabled = libro.indice === 0;
     if (btnNext) btnNext.disabled = libro.indice === libro.total;
-    history.replaceState(null, '', libro.id ? '#' + libro.id : location.pathname);
+    history.replaceState(null, '', location.pathname + location.search + (libro.id ? '#' + libro.id : ''));
   });
 
   const desdeHash = () => Math.max(0, fb.aperturaDeId(location.hash.slice(1)));

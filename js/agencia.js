@@ -80,6 +80,8 @@ window.NOMADE_CONFIG = {
   if (!cfg) return;
 
   if (params.get('agencia')) {
+    cfg.esDemo = true;
+    cfg.whatsappVentas = '5492914000000'; // <-- Poné acá TU WhatsApp real
     cfg.agencia.nombre = params.get('agencia');
     cfg.revista.agenciaTapa = params.get('agencia');
     cfg.agencia.rotulo = 'Tu agencia de viajes';
@@ -88,6 +90,7 @@ window.NOMADE_CONFIG = {
     cfg.agencia.redes = [];
     delete cfg.venta;
   }
+
   if (params.get('color')) {
     cfg.tema['--color-primario'] = params.get('color');
   }
