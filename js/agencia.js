@@ -1,106 +1,107 @@
-/* NÓMADE · config/agencia.js — el ÚNICO archivo que una agencia edita.
-   Un dato vacío ('') no se muestra. "Salidas" y "viajeros" aparecen solo si tienen datos.
-   Esta carpeta "config" tiene que estar junto a index.html.
-
-   EDICIÓN ACTUAL: la que publicás como @soynoelia.garcia (sin ofertas de destinos).
-   Cuando una agencia contrate la revista: cambiá "agencia" por sus datos, borrá "venta"
-   y cargá sus "salidas". La contratapa pasa a mostrar el contacto de esa agencia. */
-
-/* NÓMADE · js/agencia.js — configuración de la edición, agencia, operadores y modo demo */
+// =============================================
+// NÓMADE · js/agencia.js
+// =============================================
 
 window.NOMADE_CONFIG = {
   revista: {
     nombre: 'Nómade',
     descriptor: 'Revista digital de turismo',
-    edicion: 'Diciembre 2026',
+    edicion: 'Octubre 2026',
+    logo: 'img/logo.png',
+    agenciaTapa: 'Horizonte Viajes',
     destinoDelMes: {
       nombre: 'Estambul',
       foto: 'img/card-estambul.jpg'
-    },
-    selloTapa: 'img/marca/nomade-icono.svg',
-    agenciaTapa: 'Horizonte Viajes'
+    }
   },
 
   agencia: {
     nombre: 'Noelia García',
     rotulo: 'Revista creada por',
     lema: 'Travel Tech · Agente de viajes',
+    sobreNosotros: '',
     logo: 'img/logo.png',
     logoFondo: 'claro',
-    sobreNosotros: '',
     telefono: '',
-    whatsapp: '5492914327563',
+    whatsapp: '+54 9 291 432-7563',
     email: '',
     web: '',
     direccion: '',
     horario: '',
     redes: [
-      { nombre: 'Instagram', url: 'https://instagram.com/soynoelia.garcia' },
-      { nombre: 'Substack', url: 'https://substack.com/@noepgarcia' },
-      { nombre: 'LinkedIn', url: 'https://www.linkedin.com/in/noeliapgarcia/' }
+      { nombre: 'Instagram', url: 'https://instagram.com' },
+      { nombre: 'LinkedIn', url: 'https://linkedin.com' },
+      { nombre: 'Substack', url: 'https://substack.com' }
     ]
   },
 
-  venta: {
-    titulo: '¿Tenés una agencia de viajes?',
-    texto: 'Sumá tu propia revista Nómade, con tu logo, tus colores y tus datos de contacto.',
-    planes: [
-      { nombre: 'Plan mensual', texto: 'Una edición por mes.' },
-      { nombre: 'Plan anual', texto: 'Las 12 ediciones del año.' }
-    ]
+  tema: {
+    '--color-primario': '#1b2349',
+    '--color-acento': '#6366f1',
+    '--color-secundario': '#9ae6d4'
   },
 
-   // Pág. 27: Oferta o salida destacada de la agencia minorista (si está vacío, se ve el cierre editorial)
-  salidas: [
-    { foto: 'img/destinos/card-rio.jpg', pais: 'Salida grupal', titulo: 'Río de Janeiro All Inclusive', texto: '7 noches frente al mar con asistencia al viajero incluida.', fecha: 'Consultar tarifa' }
-  ],
-
-  viajeros: [],
-
-  // Pág. 25: Logos de operadores aliados
+  // Pág. 25 · Operadores aliados (guardá sus logos en img/operadores/)
   operadores: [
-    { nombre: 'Aventura Sur Mayorista', logo: 'img/marca/nomade-icono.svg', web: 'https://instagram.com/soynoelia.garcia' },
-    { nombre: 'Horizonte Operador', logo: 'img/logo.png', web: 'https://substack.com/@noepgarcia' },
-    { nombre: 'Rutas del Mundo', logo: 'img/marca/nomade-icono.svg', web: 'https://www.linkedin.com/in/noeliapgarcia/' }
+    // Ejemplo:
+    // { nombre: 'Ola Mayorista', logo: 'img/operadores/ola.png', web: 'https://ola.com.ar' }
   ],
 
-  // Pág. 26: Ofertas de distintos operadores
+  // Pág. 26 · Propuestas de operadores mayoristas
   ofertasOperadores: [
-    { foto: 'img/card-estambul.jpg', pais: 'Aventura Sur', titulo: 'Estambul & Capadocia', texto: '10 noches con aéreos, traslados y excursiones.', fecha: 'Salidas Oct/Nov' },
-    { foto: 'img/destinos/card-italia.jpg', pais: 'Horizonte Operador', titulo: 'Italia Clásica', texto: 'Roma, Florencia y Venecia con guía en español.', fecha: 'Cupos confirmados' }
+    {
+      foto: 'img/destinos/card-rio.jpg',
+      pais: 'Brasil · Salida grupal',
+      titulo: 'Río de Janeiro All Inclusive',
+      texto: '7 noches con aéreos, traslados y asistencia médica incluida.',
+      fecha: 'Consultar fechas'
+    },
+    {
+      foto: 'img/destinos/card-italia.jpg',
+      pais: 'Europa · Circuito',
+      titulo: 'Italia y Costa Amalfitana',
+      texto: '12 días recorriendo Roma, Florencia, Venecia y Sorrento.',
+      fecha: 'Salidas acompañadas'
+    }
   ],
 
-  tema: {}
+  // Pág. 27 · Salidas propias de la agencia
+  salidas: [
+    {
+      foto: 'img/salidas/punta-cana.jpeg',
+      pais: 'Caribe',
+      titulo: 'Punta Cana Resort 5★',
+      texto: 'Todo incluido frente al mar con vuelos directos y traslados.',
+      fecha: 'Cupos limitados'
+    }
+  ],
+
+  // Pág. 16 · Testimonios de viajeros
+  viajeros: [
+    {
+      foto: 'img/viajero-ana.avif',
+      destino: 'Estambul, Turquía',
+      nombre: 'Ana Morales',
+      frase: '«Tener la guía y las frases útiles en el celular nos salvó en cada traslado.»'
+    },
+    {
+      foto: 'img/viajero-marcos.avif',
+      destino: 'Kioto, Japón',
+      nombre: 'Marcos Silva',
+      frase: '«La organización y los consejos previos hicieron que disfrutemos sin estrés.»'
+    }
+  ],
+
+  // Contratapa · Tus planes de suscripción para agencias (se ocultan en los links de clientes)
+  venta: {
+    titulo: '¿Querés esta revista con la marca de tu agencia?',
+    texto: 'Personalizamos portada, contratapa y consultas directas a tu WhatsApp.',
+    planes: [
+      { nombre: 'Plan mensual', texto: 'Edición renovada cada mes con tu marca', precio: '' },
+      { nombre: 'Plan anual', texto: '12 ediciones personalizadas + prioridad', precio: '' }
+    ]
+  }
 };
-
-/* ── Modo Demo por URL (?agencia=Nombre&color=%230E9F6E&wa=5491112345678) ── */
-(() => {
-  const params = new URLSearchParams(location.search);
-  const cfg = window.NOMADE_CONFIG;
-  if (!cfg) return;
-
-  if (params.get('agencia')) {
-    cfg.esDemo = true;
-    cfg.whatsappVentas = '5492914327563';
-    cfg.agencia.nombre = params.get('agencia');
-    cfg.revista.agenciaTapa = params.get('agencia');
-    cfg.agencia.rotulo = 'Tu agencia de viajes';
-    cfg.agencia.lema = 'Edición personalizada de muestra';
-    cfg.agencia.logo = '';
-    cfg.agencia.redes = [];
-    delete cfg.venta;
-  }
-
-  if (params.get('color')) {
-    cfg.tema['--color-primario'] = params.get('color');
-  }
-  if (params.get('acento')) {
-    cfg.tema['--color-acento'] = params.get('acento');
-  }
-  if (params.get('wa')) {
-    cfg.agencia.whatsapp = params.get('wa');
-  }
-})();
 
 /* ── Clientes Suscriptos (?c=alias-agencia) ── */
 (() => {
@@ -115,10 +116,10 @@ window.NOMADE_CONFIG = {
       colorPrimario: '#0E9F6E',
       colorAcento: '#10B981',
       redes: [
-        { red: 'Instagram', usuario: '@viajesbahia', url: 'https://instagram.com' }
+        { nombre: 'Instagram', url: 'https://instagram.com' }
       ]
     }
-    // Cuando contrate otra agencia, copiás este bloque con coma arriba y cambiás los datos
+    // Para sumar otra agencia: poné coma después de } arriba y copiá este mismo bloque
   };
 
   const id = new URLSearchParams(location.search).get('c');
