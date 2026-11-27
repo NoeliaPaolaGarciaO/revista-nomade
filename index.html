@@ -2,423 +2,287 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Nómade | Revista digital de turismo</title>
-  <meta name="description" content="Revista digital mensual de turismo: destinos, salidas, guía del viajero y más.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nómade · Tu revista digital de turismo</title>
+  <meta name="description" content="Conocé Nómade: la revista digital interactiva marca blanca para agencias de viajes y operadores turísticos.">
   <meta name="author" content="Noelia García">
-  <meta name="copyright" content="© 2026 Noelia García · Nómade">
-
-  <!-- App instalable -->
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#1B2349">
   <link rel="icon" href="img/marca/nomade-icono.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="img/marca/apple-touch-icon.png">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Nómade">
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Vista previa al compartir -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Nómade · Revista digital de turismo">
-  <meta property="og:description" content="Destinos, salidas y guía del viajero. Leela desde tu celular.">
-  <meta property="og:image" content="img/marca/og-imagen.png">
+    <style>
+    :root {
+      --primario: #1b2349;
+      --menta: #9ae6d4;
+      --fondo: #faf9f6;
+      --tarjeta: #ffffff;
+      --tinta: #11162b;
+      --suave: #525b76;
+      --borde: rgba(17, 22, 43, 0.08);
+    }
 
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/agencia.js" defer></script>
-  <script src="js/app.js" defer></script>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: var(--fondo); color: var(--tinta); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    .topbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; max-width: 1120px; margin: 0 auto; padding: 18px 24px; background: rgba(250, 249, 246, 0.9); backdrop-filter: blur(12px); }
+    .marca { display: inline-flex; align-items: center; gap: 10px; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.04em; text-transform: lowercase; color: var(--tinta); text-decoration: none; }
+    .marca img { width: 28px; height: 28px; border-radius: 50%; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 99px; font-weight: 700; font-size: 0.92rem; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: transform 0.2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--primario { background: var(--primario); color: #fff; box-shadow: 0 10px 24px rgba(27, 35, 73, 0.18); }
+    .btn--secundario { background: #fff; color: var(--tinta); border-color: var(--borde); }
+    .btn--chico { padding: 9px 18px; font-size: 0.85rem; }
+
+    .contenedor { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; padding: 28px 0 64px; }
+    .pill { display: inline-block; padding: 6px 14px; border-radius: 99px; margin-bottom: 18px; background: rgba(27, 35, 73, 0.08); color: var(--primario); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+    h1 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.035em; margin-bottom: 20px; }
+    h1 em, h2 em { font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 500; color: var(--primario); }
+    .hero p { font-size: 1.08rem; color: var(--suave); max-width: 520px; margin-bottom: 30px; }
+    .hero-acciones { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .mockup-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .telefono { width: 310px; height: 560px; border-radius: 38px; padding: 12px; background: #11162b; box-shadow: 0 32px 70px rgba(17, 22, 43, 0.25); }
+    .pantalla { width: 100%; height: 100%; border-radius: 28px; overflow: hidden; background: var(--primario); color: #fff; display: flex; flex-direction: column; }
+    .vista { display: none; height: 100%; flex-direction: column; }
+    .vista.activa { display: flex; }
+
+    .v-portada { padding: 24px 20px; justify-content: space-between; background: linear-gradient(180deg, rgba(11,16,38,0.55) 0%, rgba(11,16,38,0.2) 45%, rgba(11,16,38,0.92) 100%), url('img/card-estambul.jpg') center/cover no-repeat; }
+    .v-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .v-tag { padding: 4px 10px; border-radius: 99px; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(255,255,255,0.18); }
+    .v-tag--menta { background: var(--menta); color: #0b1026; }
+    .v-titulo { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 2.3rem; font-weight: 800; letter-spacing: -0.05em; text-transform: lowercase; }
+    .v-titulo img { width: 28px; height: 28px; border-radius: 50%; }
+    .v-titulares { list-style: none; display: grid; gap: 8px; margin-top: auto; margin-bottom: 16px; font-size: 0.82rem; font-weight: 700; }
+    .v-titulares span { display: inline-block; padding: 2px 8px; border-radius: 99px; background: var(--menta); color: #0b1026; font-size: 0.6rem; margin-right: 6px; text-transform: uppercase; }
+    .v-pie { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.18); font-size: 0.72rem; }
+    .v-badge { display: flex; align-items: center; gap: 7px; }
+    .v-circulo { width: 30px; height: 30px; border-radius: 50%; background: #fff; color: var(--primario); display: grid; place-items: center; font-weight: 800; font-size: 0.72rem; overflow: hidden; flex-shrink: 0; }
+    .v-circulo img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+    .v-badge small { display: block; font-size: 0.55rem; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.1em; }
+
+    .v-interior { background: #fbf9f5; color: var(--tinta); padding: 24px 18px; gap: 12px; }
+    .v-interior h3 { font-size: 1.25rem; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; }
+    .v-card { background: #fff; border-radius: 14px; padding: 10px; border: 1px solid var(--borde); display: grid; grid-template-columns: 72px 1fr; gap: 10px; align-items: center; }
+    .v-card img { width: 72px; height: 72px; border-radius: 10px; object-fit: cover; }
+    .v-card strong { display: block; font-size: 0.82rem; line-height: 1.2; margin-bottom: 3px; }
+    .v-card span { display: block; font-size: 0.7rem; color: var(--suave); line-height: 1.3; }
+    .v-wa-btn { display: inline-block; margin-top: 6px; padding: 4px 10px; border-radius: 99px; background: var(--primario); color: #fff; font-size: 0.65rem; font-weight: 700; }
+    .v-nota-muestra { margin-top: auto; padding: 10px; border-radius: 12px; text-align: center; background: rgba(27, 35, 73, 0.08); color: var(--primario); font-size: 0.72rem; font-weight: 700; }
+
+    .tabs { display: flex; gap: 6px; background: #fff; padding: 5px; border-radius: 99px; border: 1px solid var(--borde); }
+    .tab { border: 0; background: transparent; padding: 7px 14px; border-radius: 99px; font: inherit; font-size: 0.78rem; font-weight: 700; color: var(--suave); cursor: pointer; }
+    .tab.activa { background: var(--primario); color: #fff; }
+
+    .seccion { padding: 64px 0; border-top: 1px solid var(--borde); }
+    .seccion-cabecera { max-width: 600px; margin-bottom: 40px; }
+    .seccion-cabecera h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 10px; }
+    .seccion-cabecera p { color: var(--suave); }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .card { background: var(--tarjeta); padding: 28px; border-radius: 20px; border: 1px solid var(--borde); }
+    .card-num { font-size: 0.78rem; font-weight: 800; color: var(--primario); letter-spacing: 0.12em; margin-bottom: 12px; display: block; }
+    .card h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .card p { font-size: 0.92rem; color: var(--suave); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .cta-box { padding: 36px; border-radius: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+    .cta-box--oscura { background: var(--primario); color: #fff; }
+    .cta-box--oscura p { color: rgba(255, 255, 255, 0.8); }
+    .cta-box--oscura .btn { background: var(--menta); color: #0b1026; align-self: flex-start; }
+    .cta-box--clara { background: #fff; border: 1px solid var(--borde); }
+    .cta-box--clara p { color: var(--suave); }
+    .cta-box--clara .btn { align-self: flex-start; }
+    .cta-box h3 { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 10px; }
+
+    footer { border-top: 1px solid var(--borde); padding: 32px 24px; text-align: center; font-size: 0.85rem; color: var(--suave); }
+    footer a { color: var(--tinta); font-weight: 700; text-decoration: none; margin: 0 8px; }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 20px; }
+      .hero p { margin-inline: auto; }
+      .hero-acciones { justify-content: center; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+
 </head>
-
 <body>
 
-  <!-- BARRA SUPERIOR -->
-  <header class="nav">
-    <a class="nav-marca" href="#portada" aria-label="Ir a la portada">
-      <img class="nav-marca-icono" src="img/marca/nomade-icono.svg" alt="">
-      <span class="nav-marca-texto" data-texto="revista.nombre">Nómade</span>
-    </a>
-    <div class="nav-acciones">
-      <span id="indicador" class="nav-ind" aria-live="polite">Tapa</span>
-      <button type="button" id="btn-compartir" class="nav-btn">Compartir</button>
-      <button type="button" id="btn-instalar" class="nav-btn" hidden>Instalar app</button>
-    </div>
+  <header class="topbar">
+    <a href="#" class="marca"><img src="img/marca/nomade-icono.svg" alt="Nómade"> nómade</a>
+    <a href="#participar" class="btn btn--primario btn--chico">Quiero mi edición</a>
   </header>
 
-  <!-- LIBRO (todas las páginas adentro de #flipbook) -->
-  <main id="flipbook" class="flipbook" aria-label="Revista digital">
-
-    <!-- 01 · PORTADA -->
-    <article class="pagina pagina--portada pagina--sin-folio" id="portada" data-etiqueta="Tapa">
-      <img class="pagina-foto" src="img/card-estambul.jpg" alt="">
-
-      <svg class="portada-fondo" viewBox="0 0 500 707" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs>
-          <linearGradient id="cielo" gradientUnits="userSpaceOnUse" y2="470">
-            <stop offset="0"   style="stop-color: var(--color-oscuro)"/>
-            <stop offset=".38" style="stop-color: color-mix(in srgb, var(--color-primario) 55%, var(--color-oscuro))"/>
-            <stop offset=".66" style="stop-color: var(--color-primario)"/>
-            <stop offset=".86" style="stop-color: var(--color-acento)"/>
-            <stop offset="1"   style="stop-color: var(--color-secundario)"/>
-          </linearGradient>
-          <radialGradient id="luna">
-            <stop offset="0" style="stop-color: var(--color-secundario)"/>
-            <stop offset="1" style="stop-color: color-mix(in srgb, var(--color-acento) 55%, var(--color-secundario))"/>
-          </radialGradient>
-          <radialGradient id="halo">
-            <stop offset="0" style="stop-color: var(--color-secundario); stop-opacity: .5"/>
-            <stop offset="1" style="stop-color: var(--color-secundario); stop-opacity: 0"/>
-          </radialGradient>
-        </defs>
-        <rect width="500" height="707" fill="url(#cielo)"/>
-        <path d="M46 214h.1M118 176h.1M205 226h.1M262 188h.1M352 214h.1M430 178h.1M470 236h.1M80 262h.1M160 250h.1M300 150h.1M400 262h.1M20 140h.1" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
-        <circle cx="330" cy="395" r="170" fill="url(#halo)"/>
-        <circle cx="330" cy="395" r="92" fill="url(#luna)"/>
-        <path d="M40 412C120 332 250 288 408 262" fill="none" stroke="#fff" stroke-width="2.6" stroke-dasharray="1 9" stroke-linecap="round" opacity=".9"/>
-        <circle cx="40" cy="412" r="5" fill="#fff"/>
-        <g transform="translate(408 262) rotate(-9)">
-          <path d="M36 0L-8-15 6 0Z" fill="#fff"/>
-          <path d="M36 0L-8 15 6 0Z" fill="#e4dcff"/>
-        </g>
-        <path d="M0 482C90 442 170 472 260 454 350 436 420 472 500 450V707H0Z" style="fill: color-mix(in srgb, var(--color-primario) 55%, var(--color-oscuro))"/>
-        <path d="M0 524C100 490 190 524 290 504 380 486 440 516 500 502V707H0Z" style="fill: color-mix(in srgb, var(--color-primario) 28%, var(--color-oscuro))"/>
-        <path d="M0 574C120 544 220 578 330 560 410 547 460 564 500 556V707H0Z" style="fill: var(--color-oscuro)"/>
-      </svg>
-
-      <div class="portada-cabecera">
-        <span class="etiqueta" data-texto="revista.descriptor">Revista digital de turismo</span>
-        <span class="etiqueta etiqueta--acento" data-texto="revista.edicion">Octubre 2026</span>
+  <main class="contenedor">
+    <section class="hero">
+      <div>
+        <span class="pill" id="hero-pill">Revista digital de turismo</span>
+        <h1 id="hero-titulo">Tu agencia, en formato <em>revista interactiva</em>.</h1>
+        <p>Fidelizá a tus pasajeros cada mes con 28 páginas de destinos, gastronomía y guías de viaje listas para compartir por WhatsApp, con tu logo y consultas directas a tu chat.</p>
+        <div class="hero-acciones">
+          <a id="btn-wa-agencia" href="#" target="_blank" rel="noopener noreferrer" class="btn btn--primario">Adquirir para mi agencia</a>
+          <a id="btn-wa-colab" href="#" target="_blank" rel="noopener noreferrer" class="btn btn--secundario">Colaborar como operador</a>
+        </div>
       </div>
 
-      <h1 class="portada-marca"><span data-texto="revista.nombre">Nómade</span><img class="portada-marca-logo" src="img/marca/nomade-icono.svg" alt="" style="width:0.88em; height:0.88em; border-radius:50%; flex-shrink:0;"></h1>
+      <div class="mockup-wrap">
+        <div class="telefono">
+          <div class="pantalla">
+            <div class="vista v-portada activa" id="vista-1">
+              <div>
+                <div class="v-tags">
+                  <span class="v-tag">Revista digital</span>
+                  <span class="v-tag v-tag--menta">Edición mensual</span>
+                </div>
+                <div class="v-titulo">nómade <img src="img/marca/nomade-icono.svg" alt=""></div>
+              </div>
 
-      <ul class="portada-titulares">
-        <li><span class="etiqueta etiqueta--acento">Destino del mes</span><span data-texto="revista.destinoDelMes.nombre">Estambul</span></li>
-        <li><span class="etiqueta etiqueta--acento">Experiencias</span><span>Ideas para vivir cada destino</span></li>
-        <li><span class="etiqueta etiqueta--acento">Guía</span><span>Todo para viajar tranquilo</span></li>
-      </ul>
+              <div>
+                <ul class="v-titulares">
+                  <li><span>Destino</span> Estambul y Capadocia</li>
+                  <li><span>Guía</span> Checklist y tips de viaje</li>
+                </ul>
+                <div class="v-pie">
+                  <div class="v-badge">
+                    <div class="v-circulo"><img src="img/logo.png" alt="NG"></div>
+                    <div><small>Editada por</small><strong>Noelia García</strong></div>
+                  </div>
+                  <div class="v-badge">
+                    <div class="v-circulo" id="demo-iniciales">TA</div>
+                    <div><small>Agencia</small><strong id="demo-agencia-nombre">Tu Agencia</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      <div class="portada-pie">
-        <div class="portada-firma">
-          <span class="insignia" aria-hidden="true"><img src="img/logo.png" alt=""></span>
-          <div>
-            <small>Editada por</small>
-            <strong>Noelia García</strong>
+            <div class="vista v-interior" id="vista-2">
+              <span class="pill" style="margin-bottom:0; font-size:0.65rem;">Ventas directas</span>
+              <h3>Tus salidas y operadores aliados</h3>
+              <div class="v-card">
+                <img src="img/destinos/card-rio.jpg" alt="Río de Janeiro">
+                <div>
+                  <strong>Río de Janeiro All Inclusive</strong>
+                  <span>7 noches · Aéreo + traslados</span>
+                  <span class="v-wa-btn">Consultar por WhatsApp →</span>
+                </div>
+              </div>
+              <div class="v-card">
+                <img src="img/destinos/card-italia.jpg" alt="Europa">
+                <div>
+                  <strong>Europa Clásica 15 días</strong>
+                  <span>Salida grupal acompañada</span>
+                  <span class="v-wa-btn">Consultar por WhatsApp →</span>
+                </div>
+              </div>
+              <div class="v-nota-muestra">Cada botón abre directo el WhatsApp de <span class="txt-agencia">tu agencia</span></div>
+            </div>
+
+            <div class="vista v-interior" id="vista-3">
+              <span class="pill" style="margin-bottom:0; font-size:0.65rem;">28 páginas listas</span>
+              <h3>Inspiración y guía para el viajero</h3>
+              <div class="v-card">
+                <img src="img/gastro-ramen.jpg" alt="Gastronomía">
+                <div>
+                  <strong>Sabores del mundo</strong>
+                  <span>Platos típicos y cultura local en cada edición.</span>
+                </div>
+              </div>
+              <div class="v-card">
+                <img src="img/hero-patagonia.avif" alt="Guía">
+                <div>
+                  <strong>Checklist + App Offline</strong>
+                  <span>Tus pasajeros la guardan en su celular sin gastar datos.</span>
+                </div>
+              </div>
+              <div class="v-nota-muestra">Vista previa comercial · Edición completa bajo suscripción</div>
+            </div>
           </div>
         </div>
 
-        <div class="portada-agencia-tapa" data-agencia-tapa>
-          <span class="insignia" data-logo-agencia aria-hidden="true"></span>
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab activa" data-vista="vista-1">1. Tu Portada</button>
+          <button type="button" class="tab" data-vista="vista-2">2. Tus Ofertas</button>
+          <button type="button" class="tab" data-vista="vista-3">3. Contenido</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" id="participar">
+      <div class="grid-2">
+        <div class="cta-box cta-box--oscura">
           <div>
-            <small>Agencia</small>
-            <strong data-texto="revista.agenciaTapa">Horizonte Viajes</strong>
+            <span class="pill" style="background:rgba(255,255,255,0.15); color:#fff;">Para agencias minoristas</span>
+            <h3>Activá tu edición mensual personalizada</h3>
+            <p>Recibí tu revista lista en 24 horas con tu marca, tus salidas destacadas y soporte editorial todos los meses.</p>
           </div>
+          <a id="btn-cta-agencia" href="#" target="_blank" rel="noopener noreferrer" class="btn">Quiero contratar Nómade</a>
+        </div>
+
+        <div class="cta-box cta-box--clara">
+          <div>
+            <span class="pill">Operadores & Aliados</span>
+            <h3>Sumá tu marca o colaborá en la próxima edición</h3>
+            <p>¿Sos operador mayorista, prestador turístico o especialista en destinos? Posicioná tus productos frente a agencias minoristas y viajeros.</p>
+          </div>
+          <a id="btn-cta-colab" href="#" target="_blank" rel="noopener noreferrer" class="btn btn--primario">Quiero colaborar / pautar</a>
         </div>
       </div>
-    </article>
-
-    <!-- EDITORIAL -->
-    <article class="pagina pagina--primaria" id="editorial" data-etiqueta="Editorial">
-      <span class="etiqueta">Editorial</span>
-      <h2 class="titulo">Bienvenidos <em>a bordo</em></h2>
-      <p class="texto">Cada mes reunimos ideas para salir, datos útiles para viajar tranquilo y recomendaciones para que armes tu próximo viaje sin apuro.</p>
-      <p class="texto">En este número: tres destinos para descubrir, ideas para vivirlos, sabores de distintos rincones del mundo y una guía práctica para que tus documentos, tu dinero y tu equipaje no sean un problema.</p>
-      <p class="firma-editorial">Buen viaje, el equipo de <span data-texto="agencia.nombre">tu agencia</span></p>
-    </article>
-
-<!-- ÍNDICE -->
-    <article class="pagina pagina--papel pagina--arriba">
-      <span class="etiqueta">En este número</span>
-      <h2 class="titulo">Todo lo que <em>viene</em></h2>
-      <ul class="indice">
-        <li><a href="#editorial"><b data-folio-de="editorial"></b><span>Editorial</span></a></li>
-        <li><a href="#inspiracion"><b data-folio-de="inspiracion"></b><span>Inspiración</span></a></li>
-        <li><a href="#destinos"><b data-folio-de="destinos"></b><span>Destinos</span></a></li>
-        <li><a href="#experiencias"><b data-folio-de="experiencias"></b><span>Experiencias</span></a></li>
-        <li><a href="#gastronomia"><b data-folio-de="gastronomia"></b><span>Sabores del mundo</span></a></li>
-        <li><a href="#entrevista"><b data-folio-de="entrevista"></b><span>Entrevista</span></a></li>
-        <li data-requiere="viajeros"><a href="#viajeros"><b data-folio-de="viajeros"></b><span>Viajeros</span></a></li>
-        <li><a href="#guia"><b data-folio-de="guia"></b><span>Guía del viajero</span></a></li>
-        <li><a href="#equipaje"><b data-folio-de="equipaje"></b><span>Equipaje</span></a></li>
-        <li><a href="#checklist"><b data-folio-de="checklist"></b><span>Antes de salir</span></a></li>
-        <li><a href="#frases"><b data-folio-de="frases"></b><span>Frases útiles</span></a></li>
-        <li data-requiere="operadores"><a href="#operadores"><b data-folio-de="operadores"></b><span>Operadores aliados</span></a></li>
-        <li data-requiere="ofertasOperadores"><a href="#ofertas-operadores"><b data-folio-de="ofertas-operadores"></b><span>Propuestas de operadores</span></a></li>
-        <li data-requiere="salidas"><a href="#salidas"><b data-folio-de="salidas"></b><span>Nuestras salidas</span></a></li>
-        <li><a href="#contratapa"><b data-folio-de="contratapa"></b><span>Contacto</span></a></li>
-      </ul>
-    </article>
-
-    <!-- INSPIRACIÓN -->
-    <article class="pagina pagina--papel-alt pagina--centrada" id="inspiracion" data-etiqueta="Inspiración">
-      <span class="etiqueta">Inspiración</span>
-      <h2 class="titulo">Ideas para tu <em>próximo viaje</em></h2>
-      <p class="texto">Playas paradisíacas, montañas imponentes y ciudades llenas de historia. A veces el mejor plan empieza con una foto que no podés dejar de mirar.</p>
-    </article>
-    <article class="pagina pagina--foto">
-      <img class="pagina-foto" src="img/hero-patagonia.avif" alt="Paisaje de la Patagonia">
-      <h2 class="titulo">Explorá el <em>mundo</em></h2>
-      <p class="texto">Descubrí experiencias únicas que te esperan en cada destino.</p>
-    </article>
-
-    <!-- DESTINOS -->
-    <article class="pagina pagina--primaria" id="destinos" data-etiqueta="Destinos">
-      <span class="etiqueta">Inspiración</span>
-      <h2 class="titulo">Destinos para <em>descubrir</em></h2>
-      <p class="texto">Lugares que pueden convertirse en tu próximo viaje.</p>
-    </article>
-    <article class="pagina pagina--papel pagina--arriba">
-      <ul class="tarjetas" data-tarjetas="
-        img/card-estambul.jpg | Turquía | Estambul | Una ciudad fascinante entre Europa y Asia. | #estambul
-        img/destinos/card-italia.jpg | Europa | Italia | Arte, historia, ciudades y gastronomía. | #italia
-        img/destinos/card-rio.jpg | Brasil | Río de Janeiro | Playas, naturaleza y paisajes increíbles. | #experiencias
-      "></ul>
-    </article>
-
-    <!-- ARTÍCULO: ESTAMBUL -->
-    <article class="pagina pagina--foto" id="estambul" data-etiqueta="Destinos · Estambul">
-      <img class="pagina-foto" src="img/card-estambul.jpg" alt="Vista de Estambul">
-      <span class="etiqueta">Turquía</span>
-      <h2 class="titulo"><em>Estambul</em></h2>
-            <p class="texto">Una ciudad fascinante entre Europa y Asia.</p>
-    </article>
-    <article class="pagina pagina--papel pagina--arriba">
-      <span class="etiqueta">Estambul en cuatro claves</span>
-      <h2 class="titulo">Antes de <em>ir</em></h2>
-      <ul class="datos" data-datos="
-        Cuándo ir | Primavera y otoño suelen ser las épocas más agradables, con temperaturas templadas y menos calor que en verano.
-        Qué no perderte | Santa Sofía, la Mezquita Azul, el Gran Bazar y un paseo en barco por el Bósforo.
-        Para probar | Un desayuno turco, el baklava y el té servido en vasito de vidrio.
-        Un tip | Cruzar en ferry entre la parte europea y la asiática es práctico y tiene vistas inmejorables.
-      "></ul>
-    </article>
-
-    <!-- ARTÍCULO: ITALIA -->
-    <article class="pagina pagina--foto" id="italia" data-etiqueta="Destinos · Italia">
-      <img class="pagina-foto" src="img/destinos/card-italia.jpg" alt="Calle de un pueblo italiano">
-      <span class="etiqueta">Europa</span>
-      <h2 class="titulo"><em>Italia</em></h2>
-      <p class="texto">Arte, historia, ciudades y gastronomía.</p>
-    </article>
-    <article class="pagina pagina--papel pagina--arriba">
-      <span class="etiqueta">Italia en cuatro claves</span>
-      <h2 class="titulo">Antes de <em>ir</em></h2>
-      <ul class="datos" data-datos="
-        Cuándo ir | Primavera y otoño combinan buen clima con menos multitudes; el verano es caluroso y muy concurrido en las ciudades más visitadas.
-        Clásicos para un primer viaje | Roma, Florencia y Venecia forman el trío imperdible para conocer el país.
-        Para probar | Pasta fresca, pizza y gelato. En cada región cambia la especialidad.
-        Un tip | Reservá con anticipación las entradas a los museos y monumentos más visitados.
-      "></ul>
-    </article>
-
-    <!-- EXPERIENCIAS -->
-    <article class="pagina pagina--oscura" id="experiencias" data-etiqueta="Experiencias">
-      <span class="etiqueta">Experiencias</span>
-      <h2 class="titulo">Viví el <em>destino</em></h2>
-      <p class="texto">Ideas para sumar a tu viaje. Consultá con tu agente qué opciones hay disponibles en cada destino.</p>
-    </article>
-    <article class="pagina pagina--papel pagina--arriba">
-      <ul class="tarjetas" data-tarjetas="
-        img/experiencias/bosforo.jpg | Estambul | Paseo en barco por el Bósforo | Mirá la ciudad desde el agua, con Europa de un lado y Asia del otro.
-        img/experiencias/cocina-italiana.jpg | Italia | Clase de cocina italiana | Aprendé a preparar pasta fresca como en una cocina de casa.
-        img/experiencias/pan-de-azucar.jpg | Río de Janeiro | Atardecer en el Pan de Azúcar | Subí en teleférico y mirá la bahía con la luz del final del día.
-      "></ul>
-    </article>
-
-    <!-- GASTRONOMÍA -->
-    <article class="pagina pagina--degradado" id="gastronomia" data-etiqueta="Gastronomía">
-      <span class="etiqueta">Gastronomía</span>
-      <h2 class="titulo">Sabores <em>del mundo</em></h2>
-      <p class="texto">Viajar también es sentarse a la mesa. Tres platos que cuentan algo de los lugares donde nacieron.</p>
-    </article>
-    <article class="pagina pagina--papel pagina--arriba">
-      <ul class="platos" data-platos="
-        img/gastro-ramen.jpg | Japón | Ramen | Sopa de fideos en un caldo intenso, uno de los platos más queridos de la cocina japonesa.
-        img/gastro-tagine.webp | Marruecos | Tagine | Guiso que se cocina lento en una olla de barro cónica, la que le da su nombre.
-        img/gastro-pasta.jpg | Italia | Pasta | Protagonista de la mesa italiana, con recetas que cambian en cada región.
-      "></ul>
-    </article>
-
-    <!-- ENTREVISTA -->
-    <article class="pagina pagina--papel-alt pagina--arriba" id="entrevista" data-etiqueta="Entrevista">
-      <span class="etiqueta">Entrevista del mes</span>
-      <h2 class="titulo">Charla con <em>protagonistas</em></h2>
-      <div class="entrevista-cabecera">
-        <img class="entrevista-foto" src="img/logo.png" alt="Entrevistado">
-        <div>
-          <strong>Nombre del entrevistado</strong>
-          <small>Operador / Viajero frecuente · Destino favorito</small>
-        </div>
-      </div>
-      <ul class="datos" data-datos="
-        ¿Qué destino recomendarías hoy y por qué? | Respuesta breve y auténtica que inspire a viajar.
-        ¿Cuál es el error más común al planificar ese viaje? | Consejo práctico desde la experiencia real.
-        Un lugar o momento inolvidable | Esa recomendación que no aparece en las guías tradicionales.
-      "></ul>
-    </article>
-
-    <!-- VIAJEROS (se oculta sola si viajeros: [] está vacío en agencia.js) -->
-    <article class="pagina pagina--primaria" id="viajeros" data-etiqueta="Viajeros" data-requiere="viajeros">
-      <span class="etiqueta">Viajeros</span>
-      <h2 class="titulo">Historias <em>de viaje</em></h2>
-      <p class="texto">Quienes ya viajaron cuentan cómo fue.</p>
-    </article>
-    <article class="pagina pagina--papel pagina--arriba" data-requiere="viajeros">
-      <ul id="viajeros-lista" class="tarjetas"></ul>
-    </article>
-
-    <!-- GUÍA DEL VIAJERO -->
-    <article class="pagina pagina--papel pagina--arriba" id="guia" data-etiqueta="Guía del viajero">
-      <span class="etiqueta">Guía del viajero</span>
-      <h2 class="titulo">Tus <em>documentos</em></h2>
-      <ul class="datos" data-datos="
-        Pasaporte | Revisá la vigencia: muchos países exigen que tenga al menos seis meses de validez al momento de ingresar.
-        Visas y autorizaciones | Los requisitos cambian según el destino y la nacionalidad. Confirmalos con fuentes oficiales o con tu agente antes de comprar.
-        Menores de edad | Los menores que viajan solos o con un solo adulto pueden necesitar autorización de viaje. Consultalo con tiempo.
-        Copias | Guardá copias digitales de pasaporte, pasajes y seguro en tu celular y en la nube.
-      "></ul>
-    </article>
-    <article class="pagina pagina--papel pagina--arriba">
-      <span class="etiqueta">Guía del viajero</span>
-      <h2 class="titulo">Dinero y <em>tarjetas</em></h2>
-      <ul class="datos" data-datos="
-        Efectivo y tarjetas | Llevá una combinación de ambos. Consultá a tu banco qué costos tienen las compras en el exterior.
-        Avisá a tu banco | Preguntá si necesitás informar tu viaje y activá las compras internacionales antes de salir.
-        Cambio de moneda | Compará antes de cambiar y evitá hacerlo en el aeropuerto, donde suele convenir menos.
-        Propinas | Las costumbres cambian en cada país. Averiguá cuál es la habitual en tu destino.
-      "></ul>
-    </article>
-    <article class="pagina pagina--papel-alt pagina--arriba" id="salud" data-etiqueta="Guía del viajero">
-      <span class="etiqueta">Guía del viajero</span>
-      <h2 class="titulo">Salud y <em>seguro</em></h2>
-      <ul class="datos" data-datos="
-        Asistencia al viajero | Contratá un seguro médico antes de salir. Algunos destinos lo exigen para ingresar.
-        Vacunas | Consultá con tu médico, con tiempo, qué recomendaciones sanitarias aplican a tu destino.
-        Medicamentos | Llevalos en el equipaje de mano, con receta, y revisá las normas de cada país.
-        Cobertura | Leé qué cubre tu póliza: asistencia médica, equipaje y cancelaciones.
-      "></ul>
-    </article>
-    <article class="pagina pagina--papel-alt pagina--arriba">
-      <span class="etiqueta">Guía del viajero</span>
-      <h2 class="titulo">En el <em>aeropuerto</em></h2>
-      <ul class="datos" data-datos="
-        Llegada | En vuelos internacionales se recomienda llegar con unas tres horas de anticipación.
-        Check-in online | Hacelo desde el celular cuando la aerolínea lo habilite: ahorra tiempo en el mostrador.
-        Líquidos | En el equipaje de mano suelen tener un límite de 100 ml por envase, dentro de una bolsa transparente.
-        Conexiones | Dejá tiempo suficiente entre vuelos, sobre todo si hay migraciones o cambio de terminal.
-      "></ul>
-    </article>
-
-    <!-- EQUIPAJE -->
-    <article class="pagina pagina--papel pagina--arriba" id="equipaje" data-etiqueta="Equipaje">
-      <span class="etiqueta">Guía del viajero</span>
-      <h2 class="titulo">Equipaje en <em>vuelos</em></h2>
-      <p class="texto">Algunos consejos para preparar tu equipaje antes de viajar.</p>
-      <ul class="datos" data-datos="
-        Equipaje de mano | Revisá las medidas y el peso permitido por la aerolínea antes del viaje.
-        Equipaje despachado | Verificá la franquicia incluida en tu tarifa y el peso permitido.
-        Objetos restringidos | Algunos elementos no pueden transportarse en cabina o equipaje despachado.
-        Documentación | Antes de viajar revisá pasaporte, documentación y requisitos del destino.
-      "></ul>
-    </article>
-    <article class="pagina pagina--papel pagina--arriba">
-      <span class="etiqueta">Equipaje</span>
-      <h2 class="titulo">Lo <em>esencial</em></h2>
-      <div class="aviso">
-        <strong>Importante</strong>
-        <p>Las condiciones de equipaje pueden variar según la aerolínea, tarifa y destino. Consultá siempre las condiciones correspondientes a tu vuelo.</p>
-      </div>
-      <ul class="datos" data-datos="
-        Lo esencial arriba | Documentos, cargador, medicamentos y una muda de ropa por cualquier demora.
-        Objetos de valor | Electrónicos y joyas viajan siempre con vos, nunca en la valija despachada.
-        Pesá tu valija | Hacelo en casa: el exceso de peso se cobra en el aeropuerto.
-      "></ul>
-    </article>
-
-    <!-- CHECKLIST -->
-    <article class="pagina pagina--papel pagina--arriba" id="checklist" data-etiqueta="Antes de salir">
-      <span class="etiqueta">Antes de salir</span>
-      <h2 class="titulo">Tu <em>checklist</em></h2>
-      <ul class="checklist" data-check="
-        chk-pasaporte | Pasaporte vigente
-        chk-pasajes | Pasajes y vouchers
-        chk-seguro | Seguro de viaje
-        chk-dinero | Tarjetas y efectivo
-                chk-banco | Aviso al banco
-        chk-cargadores | Cargadores y adaptador
-        chk-medicamentos | Medicamentos y recetas
-        chk-copias | Copias digitales de documentos
-        chk-checkin | Check-in online
-      "></ul>
-      <p id="checklist-progreso" class="checklist-progreso"></p>
-    </article>
-
-    <!-- FRASES ÚTILES -->
-    <article class="pagina pagina--papel-alt pagina--arriba" id="frases" data-etiqueta="Frases útiles">
-      <span class="etiqueta">Para comunicarte</span>
-      <h2 class="titulo">Frases <em>útiles</em></h2>
-      <table class="frases">
-        <thead>
-          <tr><th scope="col">Español</th><th scope="col">Inglés</th><th scope="col">Italiano</th><th scope="col">Turco</th></tr>
-        </thead>
-        <tbody data-frases="
-          Hola | Hello | Ciao | Merhaba
-          Gracias | Thank you | Grazie | Teşekkürler
-          ¿Cuánto cuesta? | How much is it? | Quanto costa? | Ne kadar?
-          La cuenta, por favor | The bill, please | Il conto, per favore | Hesap, lütfen
-          ¿Dónde está el baño? | Where is the restroom? | Dov'è il bagno? | Tuvalet nerede?
-        "></tbody>
-      </table>
-    </article>
-
-    <!-- PÁG. 25 · OPERADORES ALIADOS (solo logos) -->
-    <article class="pagina pagina--papel pagina--arriba" id="operadores" data-etiqueta="Operadores" data-requiere="operadores">
-      <span class="etiqueta">Alianzas</span>
-      <h2 class="titulo">Operadores <em>aliados</em></h2>
-      <ul class="operadores-grilla" id="operadores-lista"></ul>
-    </article>
-
-    <!-- PÁG. 26 · OFERTAS DE OPERADORES -->
-    <article class="pagina pagina--papel-alt pagina--arriba" id="ofertas-operadores" data-etiqueta="Ofertas mayoristas" data-requiere="ofertasOperadores">
-      <span class="etiqueta">Oportunidades</span>
-      <h2 class="titulo">Propuestas de <em>operadores</em></h2>
-      <ul class="tarjetas" id="ofertas-operadores-lista"></ul>
-    </article>
-
-    <!-- PÁG. 27 · OFERTA DE LA AGENCIA MINORISTA -->
-    <article class="pagina pagina--papel pagina--arriba" id="salidas" data-etiqueta="Nuestra propuesta" data-requiere="salidas">
-      <span class="etiqueta">Destacado de agencia</span>
-      <h2 class="titulo">Nuestras <em>salidas</em></h2>
-      <ul class="tarjetas" id="salidas-lista"></ul>
-    </article>
-
-    <!-- PÁG. 27 (RESPALDO SI LA AGENCIA NO CARGÓ SALIDAS) -->
-    <article class="pagina pagina--papel-alt pagina--centrada" id="cierre" data-etiqueta="Cierre">
-      <span class="etiqueta">Hasta la próxima</span>
-      <h2 class="titulo">Tu próximo destino <em>empieza hoy</em></h2>
-      <p class="texto">Esperamos que estas ideas te inspiren a armar la valija. Guardá esta edición en tu celular para consultarla cuando salgas de viaje.</p>
-      <p class="firma-editorial" style="color: var(--color-acento-texto);">¡Nos leemos en el próximo número!</p>
-    </article>
-
-    <!-- CONTRATAPA (PÁG. 28) -->
-    <article class="pagina pagina--contratapa pagina--centrada pagina--oscura pagina--sin-folio" id="contratapa" data-etiqueta="Contacto">
-      <span class="insignia contratapa-insignia" data-logo aria-hidden="true"></span>
-      <span class="etiqueta" data-texto="agencia.rotulo">Tu agencia de viajes</span>
-      <h2 class="titulo" data-texto="agencia.nombre">Tu agencia</h2>
-      <p class="texto" data-texto="agencia.lema"></p>
-      <p class="texto" data-texto="agencia.sobreNosotros"></p>
-      <ul id="contacto" class="contacto" hidden></ul>
-      <section id="venta" class="venta" hidden></section>
-      <nav id="redes" class="redes" aria-label="Redes sociales" hidden></nav>
-      <p class="credito">© 2026 <span data-texto="agencia.nombre"></span> · Edición y diseño <span data-texto="revista.nombre">Nómade</span> por Noelia García. Todos los derechos reservados.</p>
-    </article>
-
-
-    <button type="button" id="btn-prev" class="esquina esquina--ant" aria-label="Página anterior" title="Arrastrá o hacé clic para volver"></button>
-    <button type="button" id="btn-next" class="esquina esquina--sig" aria-label="Página siguiente" title="Arrastrá o hacé clic para avanzar"></button>
+    </section>
   </main>
 
-  <footer class="pie">
-    <span id="ayuda-teclado" class="ayuda-teclado"></span>
+  <footer>
+    <p style="margin-bottom:8px;">© 2026 <strong>Nómade</strong> · Creada y editada por Noelia García. Todos los derechos reservados.</p>
+    <div>
+      <a href="https://instagram.com/soynoelia.garcia" target="_blank" rel="noopener noreferrer">Instagram</a> ·
+      <a href="https://www.linkedin.com/in/noeliapgarcia/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+      <a href="https://substack.com/@noepgarcia" target="_blank" rel="noopener noreferrer">Substack</a>
+    </div>
   </footer>
 
+  <script>
+    const WHATSAPP_NOELIA = '5492914327563';
+
+    const params = new URLSearchParams(location.search);
+    const agencia = params.get('agencia');
+    const color = params.get('color');
+
+    if (color) {
+      document.documentElement.style.setProperty('--primario', color);
+    }
+
+    if (agencia) {
+      document.getElementById('hero-pill').textContent = 'Muestra personalizada · ' + agencia;
+      document.getElementById('hero-titulo').innerHTML = 'Así lucirá la revista de <em>' + agencia + '</em>.';
+      document.getElementById('demo-agencia-nombre').textContent = agencia;
+      document.querySelectorAll('.txt-agencia').forEach((el) => { el.textContent = agencia; });
+      const ini = agencia.split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[0].toUpperCase()).join('');
+      document.getElementById('demo-iniciales').textContent = ini || 'AG';
+    }
+
+    const msgAgencia = encodeURIComponent(
+      agencia
+        ? 'Hola Noelia, vi la muestra de Nómade para ' + agencia + ' y quiero información para contratar nuestra edición.'
+        : 'Hola Noelia, vi la demo de Nómade y quiero información para tener la revista en mi agencia.'
+    );
+    const msgColab = encodeURIComponent(
+      'Hola Noelia, vi la demo de Nómade y me gustaría colaborar / pautar como operador o aliado.'
+    );
+    const urlAgencia = 'https://wa.me' + WHATSAPP_NOELIA + '?text=' + msgAgencia;
+    const urlColab = 'https://wa.me' + WHATSAPP_NOELIA + '?text=' + msgColab;
+
+    ['btn-wa-agencia', 'btn-cta-agencia'].forEach((id) => { document.getElementById(id).href = urlAgencia; });
+    ['btn-wa-colab', 'btn-cta-colab'].forEach((id) => { document.getElementById(id).href = urlColab; });
+
+    document.querySelectorAll('.tab').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach((t) => t.classList.remove('activa'));
+        document.querySelectorAll('.vista').forEach((v) => v.classList.remove('activa'));
+        btn.classList.add('activa');
+        document.getElementById(btn.dataset.vista).classList.add('activa');
+      });
+    });
+  </script>
 </body>
 </html>

@@ -40,7 +40,7 @@ body { font-family: var(--fuente-texto); color: var(--color-tinta); background: 
 .nav-marca-icono { flex: none; width: 28px; height: 28px; border-radius: 50%; }
 .nav-marca-texto { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; text-transform: lowercase; }
 .nav-marca-texto::after { content: '.'; color: var(--color-secundario); }
-.nav-marca-img { display: block; width: auto; max-width: 220px; height: 42px; border-radius: 8px; object-fit: contain; }
+.nav-marca-img { height: 30px; width: 30px; border-radius: 50%; background: #fff; padding: 3px; object-fit: contain; display: block; }
 .nav-marca:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 body:has(.flipbook[data-estado="portada"]) .nav-marca { opacity: 0; pointer-events: none; }
 
@@ -196,7 +196,7 @@ body:has(.flipbook[data-estado="portada"]) .nav-marca { opacity: 0; pointer-even
 .pagina--portada:has(.pagina-foto)::after { display: block; content: ''; inset: 0; z-index: 1; opacity: 1; background: linear-gradient(180deg, color-mix(in srgb, var(--color-oscuro) 55%, transparent), transparent 34%, transparent 46%, color-mix(in srgb, var(--color-oscuro) 94%, transparent)); }
 .pagina--portada > :not(.pagina-foto, .portada-fondo) { position: relative; z-index: 2; }
 .portada-cabecera { display: flex; flex-wrap: wrap; gap: 0.8cqw; }
-.portada-marca { display: flex; align-items: center; gap: 1.4cqw; margin-top: 0.6cqw; font-size: max(38px, 10.3cqw); font-weight: 800; letter-spacing: -0.055em; line-height: 0.88; text-transform: lowercase; color: #fff; text-shadow: 0 0.6cqw 2cqw color-mix(in srgb, var(--color-oscuro) 35%, transparent); }
+.portada-marca { display: flex; align-items: center; gap: 1.2cqw; margin-top: 0.6cqw; font-size: max(32px, 8.4cqw); font-weight: 800; letter-spacing: -0.055em; line-height: 0.88; text-transform: lowercase; color: #fff; text-shadow: 0 0.6cqw 2cqw color-mix(in srgb, var(--color-oscuro) 35%, transparent); }
 .portada-marca-logo { width: 0.92em; height: 0.92em; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
 .portada-titulares { display: grid; gap: 1.3cqw; width: 100%; margin-top: auto; list-style: none; }
 .portada-titulares li { display: flex; align-items: center; gap: 1.3cqw; }
