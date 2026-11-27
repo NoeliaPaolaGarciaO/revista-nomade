@@ -89,7 +89,7 @@ $$('[data-frases]').forEach((tb) => filas(tb, 'data-frases').forEach((c) => {
   const solo = (t) => t.replace(/[^\d+]/g, '');
   const contacto = Array.of(
     Array.of('Teléfono', agencia.telefono, agencia.telefono && 'tel:' + solo(agencia.telefono)),
-    Array.of('WhatsApp', agencia.whatsapp, agencia.whatsapp && 'https://wa.me//' + solo(agencia.whatsapp).replace('+', '')),
+    Array.of('WhatsApp', agencia.whatsapp, agencia.whatsapp && 'https://wa.me/' + solo(agencia.whatsapp).replace('+', '')),
     Array.of('Email', agencia.email, agencia.email && 'mailto:' + agencia.email),
     Array.of('Web', agencia.web?.replace(/^https?:\/\//i, ''), esUrl(agencia.web) && agencia.web),
     Array.of('Dirección', agencia.direccion, ''),
@@ -211,7 +211,7 @@ $$('[data-frases]').forEach((tb) => filas(tb, 'data-frases').forEach((c) => {
     const asunto = b.dataset.consultar;
     const msg = encodeURIComponent(`Hola, quiero consultar por: ${asunto}`);
     const dig = (agencia.whatsapp ?? '').replace(/\D/g, '');
-    const href = dig ? 'https://wa.me//' + dig + '?text=' + msg : agencia.email ? 'mailto:' + agencia.email + '?subject=' + encodeURIComponent(asunto) + '&body=' + msg : esUrl(agencia.web) ? agencia.web : redUrl;
+    const href = dig ? 'https://wa.me/' + dig + '?text=' + msg : agencia.email ? 'mailto:' + agencia.email + '?subject=' + encodeURIComponent(asunto) + '&body=' + msg : esUrl(agencia.web) ? agencia.web : redUrl;
     if (!href) return (b.hidden = true);
     b.href = href;
     if (esUrl(href)) Object.assign(b, { target: '_blank', rel: 'noopener noreferrer' });

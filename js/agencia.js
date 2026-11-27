@@ -81,7 +81,7 @@ window.NOMADE_CONFIG = {
 
   if (params.get('agencia')) {
     cfg.esDemo = true;
-    cfg.whatsappVentas = '5492914327563'; // <-- Poné acá TU WhatsApp real
+    cfg.whatsappVentas = '5492914327563';
     cfg.agencia.nombre = params.get('agencia');
     cfg.revista.agenciaTapa = params.get('agencia');
     cfg.agencia.rotulo = 'Tu agencia de viajes';
@@ -109,7 +109,7 @@ window.NOMADE_CONFIG = {
       nombre: 'Viajes Bahía',
       rotulo: 'Tu agencia de viajes',
       lema: 'Viajá con asesoramiento personalizado',
-      logo: 'img/clientes/viajes-bahia.png', // Guardá acá su logo PNG
+      logo: 'img/clientes/viajes-bahia.png',
       whatsapp: '+54 9 291 400-0000',
       email: 'info@viajesbahia.com',
       colorPrimario: '#0E9F6E',
@@ -136,5 +136,5 @@ window.NOMADE_CONFIG = {
   cfg.agencia.redes = cliente.redes || [];
   if (cliente.colorPrimario) cfg.tema['--color-primario'] = cliente.colorPrimario;
   if (cliente.colorAcento) cfg.tema['--color-acento'] = cliente.colorAcento;
-  delete cfg.venta; // Oculta tus planes de suscripción en la edición del cliente
+  delete cfg.venta;
 })();
