@@ -35,7 +35,7 @@ window.NOMADE_CONFIG = {
     direccion: '',
     horario: '',
     redes: [
-      { nombre: '@soynoelia.garcia', url: 'https://instagram.com/soynoelia.garcia' },
+      { nombre: 'Instagram', url: 'https://instagram.com/soynoelia.garcia' },
       { nombre: 'Substack', url: 'https://substack.com/@noepgarcia' },
       { nombre: 'LinkedIn', url: 'https://www.linkedin.com/in/noeliapgarcia/' }
     ]
