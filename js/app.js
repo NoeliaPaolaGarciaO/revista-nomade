@@ -89,7 +89,7 @@ $$('[data-frases]').forEach((tb) => filas(tb, 'data-frases').forEach((c) => {
   const solo = (t) => t.replace(/[^\d+]/g, '');
   const contacto = Array.of(
     Array.of('Teléfono', agencia.telefono, agencia.telefono && 'tel:' + solo(agencia.telefono)),
-    Array.of('WhatsApp', agencia.whatsapp, agencia.whatsapp && 'https://wa.me/' + solo(agencia.whatsapp).replace('+', '')),
+    Array.of('WhatsApp', agencia.whatsapp, agencia.whatsapp && 'https://wa.me' + solo(agencia.whatsapp).replace('+', '')),
     Array.of('Email', agencia.email, agencia.email && 'mailto:' + agencia.email),
     Array.of('Web', agencia.web?.replace(/^https?:\/\//i, ''), esUrl(agencia.web) && agencia.web),
     Array.of('Dirección', agencia.direccion, ''),
@@ -135,39 +135,47 @@ $$('[data-frases]').forEach((tb) => filas(tb, 'data-frases').forEach((c) => {
 
   const quitar = (n) => $$(`[data-requiere="${n}"]`).forEach((el) => el.remove());
 
-  // Pág. 25: Solo logos de operadores aliados
+  // Pág. 25: Operadores aliados (si no hay logos cargados, muestra invitación a sumarse)
   const operadores = (cfg.operadores ?? []).filter((op) => op?.logo).slice(0, 9);
   const grillaOp = $('#operadores-lista');
-  if (!operadores.length) {
-    quitar('operadores');
-  } else if (grillaOp) {
-    operadores.forEach((op) => {
-      const li = h('li', 'operador-item');
-      const caja = h('div', 'operador-caja');
-      const img = Object.assign(new Image(), { src: op.logo, alt: op.nombre || 'Operador aliado' });
-      img.addEventListener('error', () => li.remove(), { once: true });
-      caja.append(img);
+  if (grillaOp) {
+    if (!operadores.length) {
+      grillaOp.replaceWith(Object.assign(h('div', 'aviso'), {
+        innerHTML: '<strong>Espacio reservado para operadores mayoristas y aliados.</strong><br>¿Querés que tu marca llegue a agencias minoristas y viajeros de todo el país? Contactanos en la contratapa.'
+      }));
+    } else {
+      operadores.forEach((op) => {
+        const li = h('li', 'operador-item');
+        const caja = h('div', 'operador-caja');
+        const img = Object.assign(new Image(), { src: op.logo, alt: op.nombre || 'Operador aliado' });
+        img.addEventListener('error', () => li.remove(), { once: true });
+        caja.append(img);
 
-      if (esUrl(op.web)) {
-        const a = Object.assign(h('a', 'operador-link'), { href: op.web, target: '_blank', rel: 'noopener noreferrer', title: op.nombre || '' });
-        a.append(caja);
-        li.append(a);
-      } else {
-        li.append(caja);
-      }
-      grillaOp.append(li);
-    });
+        if (esUrl(op.web)) {
+          const a = Object.assign(h('a', 'operador-link'), { href: op.web, target: '_blank', rel: 'noopener noreferrer', title: op.nombre || '' });
+          a.append(caja);
+          li.append(a);
+        } else {
+          li.append(caja);
+        }
+        grillaOp.append(li);
+      });
+    }
   }
 
-  // Pág. 26: Ofertas de distintos operadores
+  // Pág. 26: Propuestas de operadores (si no hay cargadas, muestra invitación a pautar)
   const ofertasOp = (cfg.ofertasOperadores ?? []).filter((o) => o?.titulo).slice(0, 3);
   const listaOfertasOp = $('#ofertas-operadores-lista');
-  if (!ofertasOp.length) {
-    quitar('ofertasOperadores');
-  } else if (listaOfertasOp) {
-    ofertasOp.forEach((o) =>
-      listaOfertasOp.append(tarjeta({ ...o, consulta: o.fecha ? `${o.titulo} (${o.fecha})` : o.titulo }))
-    );
+  if (listaOfertasOp) {
+    if (!ofertasOp.length) {
+      listaOfertasOp.replaceWith(Object.assign(h('div', 'aviso'), {
+        innerHTML: '<strong>Espacio para salidas destacadas de operadores.</strong><br>Publicá tus paquetes grupales y promociones con consulta directa al WhatsApp de cada agencia.'
+      }));
+    } else {
+      ofertasOp.forEach((o) =>
+        listaOfertasOp.append(tarjeta({ ...o, consulta: o.fecha ? `${o.titulo} (${o.fecha})` : o.titulo }))
+      );
+    }
   }
 
   // Pág. 27: Salida destacada de la agencia minorista (si tiene datos, quita #cierre para que queden 28 páginas exactas)
@@ -211,12 +219,17 @@ $$('[data-frases]').forEach((tb) => filas(tb, 'data-frases').forEach((c) => {
     const asunto = b.dataset.consultar;
     const msg = encodeURIComponent(`Hola, quiero consultar por: ${asunto}`);
     const dig = (agencia.whatsapp ?? '').replace(/\D/g, '');
-    const href = dig ? 'https://wa.me/' + dig + '?text=' + msg : agencia.email ? 'mailto:' + agencia.email + '?subject=' + encodeURIComponent(asunto) + '&body=' + msg : esUrl(agencia.web) ? agencia.web : redUrl;
+    const href = dig
+      ? `https://wa.me{dig}?text=${msg}`
+      : agencia.email
+        ? `mailto:${agencia.email}?subject=${encodeURIComponent(asunto)}&body=${msg}`
+        : esUrl(agencia.web) ? agencia.web : redUrl;
     if (!href) return (b.hidden = true);
     b.href = href;
     if (esUrl(href)) Object.assign(b, { target: '_blank', rel: 'noopener noreferrer' });
   });
 })();
+
 /* ───────── 2. LIBRO (FLIPBOOK) ───────── */
 class Flipbook {
   constructor(contenedor, onCambio) {
@@ -241,130 +254,53 @@ class Flipbook {
   }
 
   #armar() {
-    const pags = Array.from(this.contenedor.querySelectorAll(':scope > .pagina'));
-    if (pags.length % 2) pags.push(h('article', 'pagina pagina--papel pagina--sin-folio'));
-    for (let i = 0; i < pags.length; i += 2) {
-      const hoja = h('div', 'hoja');
-      pags.at(i).classList.add('pagina--frente');
-      pags.at(i + 1).classList.add('pagina--dorso');
-      hoja.append(pags.at(i), pags.at(i + 1));
-      hoja.querySelectorAll('.pagina').forEach((p) => p.append(Object.assign(h('span', 'lomo'), { ariaHidden: 'true' })));
-      this.contenedor.append(hoja);
+    const paginas = Array.from(this.contenedor.querySelectorAll(':scope > .pagina'));
+    if (paginas.length % 2) {
+      const relleno = h('article', 'pagina pagina--papel-alt pagina--sin-folio');
+      relleno.setAttribute('aria-hidden', 'true');
+      paginas.push(relleno);
     }
-    this.contenedor.classList.add('listo');
-    return pags;
+    const hojas = [];
+    for (let i = 0; i < paginas.length; i += 2) {
+      const hoja = h('div', 'hoja');
+      const [frente, dorso] = [paginas.at(i), paginas.at(i + 1)];
+      frente.classList.add('pagina--frente');
+      dorso.classList.add('pagina--dorso');
+      frente.prepend(h('span', 'lomo'));
+      dorso.prepend(h('span', 'lomo'));
+      hoja.append(frente, dorso);
+      hojas.push(hoja);
+    }
+    this.contenedor.replaceChildren(...hojas);
+    return paginas;
   }
 
   #render(previo, animar) {
-    const { contenedor, hojas, total, indice } = this;
-    if (!animar) { contenedor.classList.add('sin-animacion'); void contenedor.offsetWidth; }
-    const adelante = indice > previo;
-    const desde = Math.min(previo, indice), hasta = Math.max(previo, indice);
-    const duracion = parseFloat(getComputedStyle(contenedor).getPropertyValue('--duracion-giro')) * 1000;
-    const pausa = animar && duracion > 100 ? 70 : 0;
-
-    hojas.forEach((hoja, i) => {
-      const gira = animar && i >= desde && i < hasta;
-      hoja.style.transitionDelay = gira ? ((adelante ? i - desde : hasta - 1 - i) * pausa) + 'ms' : '';
-      hoja.classList.toggle('volteada', i < indice);
-      if (gira) hoja.style.zIndex = total + 2 + (adelante ? i : total - i);
-    });
-
-    const terminar = () => {
-      hojas.forEach((hoja, i) => { hoja.style.zIndex = i < this.indice ? i + 1 : total - i; });
-      this.ocupado = false;
-      if (this.pendiente !== null) { const n = this.pendiente; this.pendiente = null; this.ir(n); }
-    };
-
-    const espera = animar ? duracion + (hasta - desde) * pausa + 50 : 0;
     clearTimeout(this.temporizador);
-    this.ocupado = espera > 0;
-    espera > 0 ? (this.temporizador = setTimeout(terminar, espera)) : terminar();
-    if (!animar) requestAnimationFrame(() => requestAnimationFrame(() => contenedor.classList.remove('sin-animacion')));
-
-    contenedor.dataset.estado = indice === 0 ? 'portada' : indice === total ? 'contratapa' : 'doble';
-    this.paginas.forEach((p) => { p.inert = p !== this.izq && p !== this.der; });
-    this.onCambio(this);
+    this.contenedor.classList.toggle('sin-animacion', !animar);
+    const total = this.total;
+    const movidas = Math.abs(this.indice - previo);
+    this.hojas.forEach((hoja, i) => {
+      const volteada = i < this.indice;
+      const viajando = animar && (volteada ? i >= previo : i < previo);
+      hoja.classList.toggle('volteada', volteada);
+      hoja.style.zIndex = viajando ? total * 2 + (volteada ? i : total - i) : volteada ? i + 1 : total - i;
+    });
+    this.contenedor.dataset.estado = this.indice === 0 ? 'portada' : this.indice === total ? 'contratapa' : 'abierto';
+    this.onCambio?.(this);
+    if (!animar || !movidas) return (this.ocupado = false);
+    this.ocupado = true;
+    this.temporizador = setTimeout(() => {
+      this.ocupado = false;
+      const sig = this.pendiente;
+      this.pendiente = null;
+      if (sig !== null && sig !== this.indice) this.ir(sig);
+    }, 760);
   }
 }
 
 const contenedorFlipbook = $('#flipbook');
 if (contenedorFlipbook) {
-  // Si es enlace Demo (?agencia=...), reemplaza las páginas reales por la galería protegida de muestra
-  if (window.NOMADE_CONFIG?.esDemo) {
-    const cfg = window.NOMADE_CONFIG;
-    const nombreAg = cfg.agencia?.nombre || 'Tu Agencia';
-    const wa = (cfg.whatsappVentas || '').replace(/\D/g, '');
-    const msg = encodeURIComponent(`Hola Noelia, probé la demo de Nómade para ${nombreAg} y quiero activar nuestra edición.`);
-    const linkWa = wa ? 'https://wa.me' + wa + '?text=' + msg : 'https://instagram.com';
-
-    Array.from(contenedorFlipbook.querySelectorAll(':scope > .pagina:not(#portada)')).forEach((p) => p.remove());
-
-        const paginasDemo = [
-      // Pág. 2 (izquierda): Muestra de Contenido Editorial
-      `<article class="pagina pagina--papel pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Contenido">
-        <span class="demo-cinta">Muestra · ${nombreAg}</span>
-        <span class="etiqueta">01 · Contenido listo cada mes</span>
-        <h2 class="titulo">Destinos, gastronomía y <em>guías</em></h2>
-        <p class="texto">Recibís la revista ya redactada y diseñada con notas de inspiración, platos típicos, checklist interactivo y frases útiles.</p>
-        <div class="demo-grid">
-          <div class="demo-card"><img src="img/card-estambul.jpg" alt="Destinos"><span>Destinos del mes</span></div>
-          <div class="demo-card"><img src="img/gastro-ramen.jpg" alt="Gastronomía"><span>Sabores del mundo</span></div>
-        </div>
-        <div class="demo-pill">✓ Tu equipo no tiene que redactar ni diseñar nada</div>
-      </article>`,
-
-      // Pág. 3 (derecha): Muestra de Conversión a WhatsApp
-      `<article class="pagina pagina--papel-alt pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Ventas">
-        <span class="demo-cinta">Muestra · ${nombreAg}</span>
-        <span class="etiqueta">02 · Ventas directas</span>
-        <h2 class="titulo">Consultas directo a <em>tu WhatsApp</em></h2>
-        <p class="texto">Publicamos tus salidas propias y propuestas de operadores mayoristas con botón directo al chat de <strong>${nombreAg}</strong>.</p>
-        <div class="demo-oferta-mock">
-          <img src="img/destinos/card-rio.jpg" alt="Oferta ejemplo">
-          <div>
-            <small>EJEMPLO EN TU REVISTA</small>
-            <strong>Río de Janeiro All Inclusive</strong>
-            <span>Al tocar «Consultar», el pasajero escribe directo al WhatsApp de ${nombreAg}.</span>
-          </div>
-        </div>
-        <div class="demo-pill">✓ Sin intermediarios: el cliente consulta en tu agencia</div>
-      </article>`,
-
-      // Pág. 4 (izquierda): Muestra de Marca Blanca + App Instalable
-      `<article class="pagina pagina--papel pagina--arriba pagina--demo-muestra" data-etiqueta="Vista previa · Tu Marca">
-        <span class="demo-cinta">Muestra · ${nombreAg}</span>
-        <span class="etiqueta">03 · 100% Marca Blanca</span>
-        <h2 class="titulo">Tu logo, tus colores y <em>tu app</em></h2>
-        <p class="texto">Tus pasajeros abren el link desde WhatsApp y pueden instalar la revista de <strong>${nombreAg}</strong> como app en su celular.</p>
-        <ul class="demo-beneficios">
-          <li><strong>Portada y contratapa</strong> con el logo oficial y redes de ${nombreAg}.</li>
-          <li><strong>Lectura offline</strong> en el avión o destino sin gastar datos.</li>
-          <li><strong>Un solo link mensual</strong> listo para difundir en listas de WhatsApp e Instagram.</li>
-        </ul>
-      </article>`,
-
-      // Pág. 5 (derecha): Llamado a la acción comercial
-      `<article class="pagina pagina--primaria pagina--centrada" data-etiqueta="Activar edición">
-        <span class="etiqueta">Muestra para ${nombreAg}</span>
-        <h2 class="titulo">¿Activamos la edición de <em>${nombreAg}</em>?</h2>
-        <p class="texto">En 24 horas preparamos la revista completa de 28 páginas con tu logo oficial, tus colores y tus salidas destacadas.</p>
-        <a class="boton" href="${linkWa}" target="_blank" rel="noopener noreferrer">Quiero activar mi revista</a>
-      </article>`,
-
-      // Pág. 6 (contratapa): Cierre
-      `<article class="pagina pagina--contratapa pagina--centrada pagina--oscura pagina--sin-folio" data-etiqueta="Contacto">
-        <span class="etiqueta">Nómade · Revista Digital de Turismo</span>
-        <h2 class="titulo">Tu agencia, <em>siempre presente</em></h2>
-        <p class="texto">Consultá planes mensuales y anuales para agencias de viajes.</p>
-        <a class="boton" href="${linkWa}" target="_blank" rel="noopener noreferrer">Hablar con Noelia García</a>
-        <p class="credito">© 2026 Nómade por Noelia García · Edición de muestra</p>
-      </article>`
-    ];
-
-    contenedorFlipbook.insertAdjacentHTML('beforeend', paginasDemo.join(''));
-  }
-
   const btnPrev = $('#btn-prev'), btnNext = $('#btn-next');
   const fb = new Flipbook(contenedorFlipbook, (libro) => {
     if ($('#indicador')) $('#indicador').textContent = libro.etiqueta;
@@ -427,58 +363,52 @@ if (contenedorFlipbook) {
   if ($('#ayuda-teclado')) {
     $('#ayuda-teclado').textContent = 'Arrastrá o hacé clic en las esquinas inferiores para pasar de página';
   }
-  fb.ir(desdeHash(), false);
-
-  /* ───────── 3. DETALLES ───────── */
-  $$('[data-folio-de]').forEach((el) => {
-    const i = fb.paginas.findIndex((p) => p.id === el.dataset.folioDe);
-    el.textContent = i === -1 ? '' : String(i + 1).padStart(2, '0');
-  });
+fb.ir(desdeHash(), false);
+/* ───────── 3. DETALLES ───────── */ 
+$$('[data-folio-de]').forEach((el) => { 
+const i = fb.paginas.findIndex((p) => p.id === el.dataset.folioDe); 
+el.textContent = i === -1 ? '' : String(i + 1).padStart(2, '0'); 
+}); 
 }
-
-/* ───────── 4. CHECKLIST, FOTOS ROTAS Y PWA ───────── */
-const casillas = Array.from($$('.checklist input[type="checkbox"]'));
-const contarListas = () => {
-  if ($('#checklist-progreso')) {
-    $('#checklist-progreso').textContent = casillas.filter((c) => c.checked).length + ' de ' + casillas.length + ' listas';
-  }
-};
-casillas.forEach((c) => {
-  try { c.checked = localStorage.getItem('nomade:check:' + c.id) === '1'; } catch {}
-  c.addEventListener('change', () => {
-    try { localStorage.setItem('nomade:check:' + c.id, c.checked ? '1' : '0'); } catch {}
-    contarListas();
-  });
-});
+/* ───────── 4. LISTA DE VERIFICACIÓN, FOTOS ROTAS Y PWA ───────── */ 
+const casillas = Array.from($$('.checklist input[type="checkbox"]')); 
+const contarListas = () => { 
+if ($('#checklist-progreso')) { 
+$('#checklist-progreso').textContent = casillas.filter((c) => c.checked).length + ' de ' + casillas.length + ' listas'; 
+} 
+}; 
+casillas.forEach((c) => { 
+try { c.checked = localStorage.getItem('nomade:check:' + c.id) === '1'; } catch {} 
+c.addEventListener('change', () => { 
+try { localStorage.setItem('nomade:check:' + c.id, c.checked ? '1' : '0'); } catch {} 
+contarListas(); 
+}); 
+}); 
 contarListas();
-
 $$('img.pagina-foto, img.tarjeta-img, img.plato-img').forEach((img) => {
-  const quitar = () => {
-    const caja = img.parentElement;
-    if (!caja) return;
-    caja.classList.add('sin-foto');
-    if (caja.closest('.tarjeta--cita')) caja.append(h('span', 'insignia-iniciales', iniciales(img.alt)));
-    img.remove();
-  };
-  img.complete && !img.naturalWidth ? quitar() : img.addEventListener('error', quitar, { once: true });
+const quitar = () => {
+const caja = img.parentElement;
+if (!caja) return;
+caja.classList.add('sin-foto');
+if (caja.closest('.tarjeta--cita')) caja.append(h('span', 'insignia-iniciales', iniciales(img.alt)));
+img.remove();
+};
+img.complete && !img.naturalWidth ? quitar() : img.addEventListener('error', quitar, { once: true });
 });
-
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
-
 let eventoInstalar;
 const btnInstalar = $('#btn-instalar');
 addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); eventoInstalar = e; if (btnInstalar) btnInstalar.hidden = false; });
 addEventListener('appinstalled', () => { if (btnInstalar) btnInstalar.hidden = true; });
 btnInstalar?.addEventListener('click', async () => { eventoInstalar?.prompt(); await eventoInstalar?.userChoice; if (btnInstalar) btnInstalar.hidden = true; });
-
 const btnCompartir = $('#btn-compartir');
 btnCompartir?.addEventListener('click', async () => {
-  const url = location.href.split('#').at(0);
-  try {
-    if (navigator.share) return await navigator.share({ title: document.title, url });
-    await navigator.clipboard.writeText(url);
-    const orig = btnCompartir.textContent;
-    btnCompartir.textContent = '¡Link copiado!';
-    setTimeout(() => { btnCompartir.textContent = orig; }, 2000);
-  } catch {}
+const url = location.href.split('#').at(0);
+try {
+if (navigator.share) return await navigator.share({ title: document.title, url });
+await navigator.clipboard.writeText(url);
+const orig = btnCompartir.textContent;
+btnCompartir.textContent = '¡Link copiado!';
+setTimeout(() => { btnCompartir.textContent = orig; }, 2000);
+} catch {}
 });
