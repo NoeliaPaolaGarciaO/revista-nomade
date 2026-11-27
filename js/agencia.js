@@ -12,7 +12,7 @@ window.NOMADE_CONFIG = {
   revista: {
     nombre: 'Nómade',
     descriptor: 'Revista digital de turismo',
-    edicion: 'Octubre 2026',
+    edicion: 'Diciembre 2026',
     destinoDelMes: {
       nombre: 'Estambul',
       foto: 'img/card-estambul.jpg'
@@ -81,7 +81,7 @@ window.NOMADE_CONFIG = {
 
   if (params.get('agencia')) {
     cfg.esDemo = true;
-    cfg.whatsappVentas = '5492914000000'; // <-- Poné acá TU WhatsApp real
+    cfg.whatsappVentas = '5492914327563'; // <-- Poné acá TU WhatsApp real
     cfg.agencia.nombre = params.get('agencia');
     cfg.revista.agenciaTapa = params.get('agencia');
     cfg.agencia.rotulo = 'Tu agencia de viajes';
@@ -100,4 +100,41 @@ window.NOMADE_CONFIG = {
   if (params.get('wa')) {
     cfg.agencia.whatsapp = params.get('wa');
   }
+})();
+
+/* ── Clientes Suscriptos (?c=alias-agencia) ── */
+(() => {
+  const CLIENTES = {
+    'viajes-bahia': {
+      nombre: 'Viajes Bahía',
+      rotulo: 'Tu agencia de viajes',
+      lema: 'Viajá con asesoramiento personalizado',
+      logo: 'img/clientes/viajes-bahia.png', // Guardá acá su logo PNG
+      whatsapp: '+54 9 291 400-0000',
+      email: 'info@viajesbahia.com',
+      colorPrimario: '#0E9F6E',
+      colorAcento: '#10B981',
+      redes: [
+        { red: 'Instagram', usuario: '@viajesbahia', url: 'https://instagram.com' }
+      ]
+    }
+    // Cuando contrate otra agencia, copiás este bloque con coma arriba y cambiás los datos
+  };
+
+  const id = new URLSearchParams(location.search).get('c');
+  const cliente = id && CLIENTES[id.toLowerCase()];
+  const cfg = window.NOMADE_CONFIG;
+  if (!cliente || !cfg) return;
+
+  cfg.agencia.nombre = cliente.nombre;
+  cfg.revista.agenciaTapa = cliente.nombre;
+  cfg.agencia.rotulo = cliente.rotulo || 'Tu agencia de viajes';
+  cfg.agencia.lema = cliente.lema || '';
+  cfg.agencia.logo = cliente.logo || '';
+  cfg.agencia.whatsapp = cliente.whatsapp || '';
+  cfg.agencia.email = cliente.email || '';
+  cfg.agencia.redes = cliente.redes || [];
+  if (cliente.colorPrimario) cfg.tema['--color-primario'] = cliente.colorPrimario;
+  if (cliente.colorAcento) cfg.tema['--color-acento'] = cliente.colorAcento;
+  delete cfg.venta; // Oculta tus planes de suscripción en la edición del cliente
 })();
