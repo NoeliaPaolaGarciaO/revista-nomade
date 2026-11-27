@@ -269,8 +269,8 @@
     const msgColab = encodeURIComponent(
       'Hola Noelia, vi la demo de Nómade y me gustaría colaborar / pautar como operador o aliado.'
     );
-    const urlAgencia = 'https://wa.me' + WHATSAPP_NOELIA + '?text=' + msgAgencia;
-    const urlColab = 'https://wa.me' + WHATSAPP_NOELIA + '?text=' + msgColab;
+    const urlAgencia = 'https://wa.me/' + WHATSAPP_NOELIA + '?text=' + msgAgencia;
+    const urlColab = 'https://wa.me/' + WHATSAPP_NOELIA + '?text=' + msgColab;
 
     ['btn-wa-agencia', 'btn-cta-agencia'].forEach((id) => { document.getElementById(id).href = urlAgencia; });
     ['btn-wa-colab', 'btn-cta-colab'].forEach((id) => { document.getElementById(id).href = urlColab; });

@@ -29,7 +29,7 @@ window.NOMADE_CONFIG = {
     logoFondo: 'claro',
     sobreNosotros: '',
     telefono: '',
-    whatsapp: '',
+    whatsapp: '5492914327563',
     email: '',
     web: '',
     direccion: '',
